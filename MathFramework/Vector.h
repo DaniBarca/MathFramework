@@ -15,6 +15,8 @@ protected:
     double* v;
     int size_;
 public:
+    Vector(const Vector& other);
+    
     Vector(int size);       //Defines size, allocates and clears
     Vector(double,double,double,double,double,double,double); //7D vector
     Vector(double,double,double); //3D vector
@@ -35,6 +37,10 @@ public:
     Vector cross(Vector b) const;
     
     double & operator [](int i);  //Allows easier access to data
+    double & operator [](int i) const;
+    Vector & operator =(const Vector& b);
+    
+    ~Vector();
 };
 
 Vector operator +(const Vector& a, const Vector& b);

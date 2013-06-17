@@ -10,6 +10,7 @@
 		77EF0223176EF7AD00CAA06D /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77EF0222176EF7AD00CAA06D /* main.cpp */; };
 		77EF0225176EF7AD00CAA06D /* MathFramework.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 77EF0224176EF7AD00CAA06D /* MathFramework.1 */; };
 		77EF022D176EFD8100CAA06D /* Vector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77EF022C176EFD8100CAA06D /* Vector.cpp */; };
+		77EF0231176F1E5D00CAA06D /* Matrix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77EF0230176F1E5D00CAA06D /* Matrix.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -32,6 +33,8 @@
 		77EF022B176EF8FD00CAA06D /* Vector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vector.h; sourceTree = "<group>"; };
 		77EF022C176EFD8100CAA06D /* Vector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Vector.cpp; sourceTree = "<group>"; };
 		77EF022E176EFE0D00CAA06D /* Includes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Includes.h; sourceTree = "<group>"; };
+		77EF022F176F1E0800CAA06D /* Matrix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Matrix.h; sourceTree = "<group>"; };
+		77EF0230176F1E5D00CAA06D /* Matrix.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Matrix.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +71,8 @@
 				77EF0224176EF7AD00CAA06D /* MathFramework.1 */,
 				77EF022B176EF8FD00CAA06D /* Vector.h */,
 				77EF022C176EFD8100CAA06D /* Vector.cpp */,
+				77EF022F176F1E0800CAA06D /* Matrix.h */,
+				77EF0230176F1E5D00CAA06D /* Matrix.cpp */,
 				77EF022E176EFE0D00CAA06D /* Includes.h */,
 			);
 			path = MathFramework;
@@ -126,6 +131,7 @@
 			files = (
 				77EF0223176EF7AD00CAA06D /* main.cpp in Sources */,
 				77EF022D176EFD8100CAA06D /* Vector.cpp in Sources */,
+				77EF0231176F1E5D00CAA06D /* Matrix.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

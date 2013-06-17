@@ -14,10 +14,14 @@ int main(int argc, const char * argv[])
 {
 
     Vector v = Vector(3);
+    Vector a = v;
+    
     v.set(2,3.4);
     v[0] = 2.7;
     
-    v.print();
+    a = v;
+    
+    a.print();
     
     return 0;
 }

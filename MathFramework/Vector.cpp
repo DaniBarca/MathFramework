@@ -8,9 +8,13 @@
 
 #include "Vector.h"
 
+Vector::Vector(const Vector& other){
+    operator=(other);
+}
+
 Vector::Vector(int size){
     assert(size!=0);                            //You can't create 0 size vectors
-    v = (double*)malloc(sizeof(double)*size);
+    v = new double[size];
     
     this->size_ = size;
     
@@ -113,6 +117,25 @@ double & Vector::operator [](int i){
     return v[i];
 }
 
+double & Vector::operator [](int i) const{
+    assert(i < size_);
+    return v[i];
+}
+
+Vector & Vector::operator =(const Vector & b){
+    if(this != &b){
+        delete [] v;
+        v = new double[b.size()];
+        copy(b.v, b.v+b.size(),v);
+        size_ = b.size();
+    }
+    return *this;
+}
+
+Vector::~Vector(){
+    delete [] v;
+}
+
 //---------------------- Operators between Vectors
 
 Vector operator +(const Vector& a, const Vector& b){
@@ -120,7 +143,7 @@ Vector operator +(const Vector& a, const Vector& b){
     Vector v = Vector(a.size());
     
     for(int i = 0; i<v.size(); ++i)
-        v[i] = a.get(i) + b.get(i);
+        v[i] = a.get(i) + b[i];
     
     return v;
 }
@@ -130,7 +153,7 @@ Vector operator -(const Vector& a, const Vector& b){
     Vector v = Vector(a.size());
 
     for(int i = 0; i<v.size(); ++i)
-        v[i] = a.get(i) - b.get(i);
+        v[i] = a.get(i) - b[i];
 
     return v;
 }
@@ -140,20 +163,14 @@ Vector operator *(const Vector& a, const Vector& b){
 }
 
 Vector operator /(const Vector& a, const double& b){
-    Vector v = Vector(a.size());
-    double inv = 1/b;
-    
-    for(int i = 0; i<v.size(); ++i)
-        v[i] = a.get(i) * inv;
-    
-    return v;
+    return a * (1/b);
 }
 
 Vector operator *(const Vector& a, const double& b){
     Vector v = Vector(a.size());
     
     for(int i = 0; i<v.size(); ++i)
-        v[i] = a.get(i) * b;
+        v[i] = a[i] * b;
     
     return v;
 }
