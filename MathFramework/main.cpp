@@ -3,8 +3,9 @@
 //  MathFramework
 //
 //  Created by Dani Barca on 17/06/13.
-//  Copyright (c) 2013 Dani Barca. All rights reserved.
+//  Copyleft (ɔ) 2013 Dani Barca.
 //
+//  THIS IS AN EXAMPLE CODE USING THE MATHFRAMEWORK
 
 #include <iostream>
 #include "Vector.h"
