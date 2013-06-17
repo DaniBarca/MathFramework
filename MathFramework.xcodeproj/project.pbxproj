@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		77EF0223176EF7AD00CAA06D /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77EF0222176EF7AD00CAA06D /* main.cpp */; };
 		77EF0225176EF7AD00CAA06D /* MathFramework.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 77EF0224176EF7AD00CAA06D /* MathFramework.1 */; };
+		77EF022D176EFD8100CAA06D /* Vector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77EF022C176EFD8100CAA06D /* Vector.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -28,6 +29,9 @@
 		77EF021F176EF7AD00CAA06D /* MathFramework */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MathFramework; sourceTree = BUILT_PRODUCTS_DIR; };
 		77EF0222176EF7AD00CAA06D /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		77EF0224176EF7AD00CAA06D /* MathFramework.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = MathFramework.1; sourceTree = "<group>"; };
+		77EF022B176EF8FD00CAA06D /* Vector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vector.h; sourceTree = "<group>"; };
+		77EF022C176EFD8100CAA06D /* Vector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Vector.cpp; sourceTree = "<group>"; };
+		77EF022E176EFE0D00CAA06D /* Includes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Includes.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +66,9 @@
 			children = (
 				77EF0222176EF7AD00CAA06D /* main.cpp */,
 				77EF0224176EF7AD00CAA06D /* MathFramework.1 */,
+				77EF022B176EF8FD00CAA06D /* Vector.h */,
+				77EF022C176EFD8100CAA06D /* Vector.cpp */,
+				77EF022E176EFE0D00CAA06D /* Includes.h */,
 			);
 			path = MathFramework;
 			sourceTree = "<group>";
@@ -118,6 +125,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				77EF0223176EF7AD00CAA06D /* main.cpp in Sources */,
+				77EF022D176EFD8100CAA06D /* Vector.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

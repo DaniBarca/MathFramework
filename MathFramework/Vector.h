@@ -1,0 +1,45 @@
+//
+//  Vector.h
+//  MathFramework
+//
+//  Created by Dani Barca on 17/06/13.
+//  Copyleft (ɔ) 2013 Dani Barca.
+//
+
+#ifndef MathFramework_Vector_h
+#define MathFramework_Vector_h
+#include "Includes.h"
+
+class Vector{
+    double* v;
+    int size_;
+public:
+    Vector(int size);       //Defines size, allocates and clears
+    Vector(double,double,double,double,double,double,double); //7D vector
+    Vector(double,double,double); //3D vector
+    Vector(double,double);        //2D vector
+    
+    void clear();           //Sets zeros
+    
+    int    size()   const;
+    double get(int) const;
+    
+    void   set(int, double);
+    void   print();
+    
+    double mod() const;           //Returns vector module (its length)
+    void   norm();          //Normalizes the vector
+    
+    double dot(Vector b)   const;
+    Vector cross(Vector b) const;
+    
+    double & operator [](int i); //Allows easy access to data
+};
+
+Vector operator +(const Vector& a, const Vector& b);
+Vector operator -(const Vector& a, const Vector& b);
+Vector operator *(const Vector& a, const Vector& b); //NOTE THAT THIS DOES THE CROSS PRODUCT
+Vector operator /(const Vector& a, const double& b);
+Vector operator *(const Vector& a, const double& b);
+
+#endif

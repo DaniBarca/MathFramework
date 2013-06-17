@@ -7,12 +7,17 @@
 //
 
 #include <iostream>
+#include "Vector.h"
 
 int main(int argc, const char * argv[])
 {
 
-    // insert code here...
-    std::cout << "Hello, World!\n";
+    Vector v = Vector(3);
+    v.set(2,3.4);
+    v[0] = 2.7;
+    
+    v.print();
+    
     return 0;
 }
 
