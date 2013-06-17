@@ -20,6 +20,7 @@ class Matrix{
     int size_;
     
 public:
+    Matrix(const Matrix & other);
     Matrix(int,int);
     
     void clear();
@@ -27,10 +28,15 @@ public:
     double get(int,int) const;
     int    rows()       const;
     int    columns()    const;
+    int    size()       const;
     void   print()      const;
     void   set(int,int,double);
     
     void setIdentity();
+    
+    Matrix & operator =(const Matrix & b);
 };
+
+Matrix & operator *(const Matrix & a, const Matrix & b);
 
 #endif
