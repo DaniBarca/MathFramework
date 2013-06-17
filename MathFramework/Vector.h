@@ -11,6 +11,7 @@
 #include "Includes.h"
 
 class Vector{
+protected:
     double* v;
     int size_;
 public:
@@ -28,12 +29,12 @@ public:
     void   print();
     
     double mod() const;           //Returns vector module (its length)
-    void   norm();          //Normalizes the vector
+    void   norm();                //Normalizes the vector
     
     double dot(Vector b)   const;
     Vector cross(Vector b) const;
     
-    double & operator [](int i); //Allows easy access to data
+    double & operator [](int i);  //Allows easier access to data
 };
 
 Vector operator +(const Vector& a, const Vector& b);
@@ -41,5 +42,17 @@ Vector operator -(const Vector& a, const Vector& b);
 Vector operator *(const Vector& a, const Vector& b); //NOTE THAT THIS DOES THE CROSS PRODUCT
 Vector operator /(const Vector& a, const double& b);
 Vector operator *(const Vector& a, const double& b);
+
+class Vector2 : public Vector{
+public:
+    Vector2();
+    Vector2(double,double);
+};
+
+class Vector3 : public Vector{
+public:
+    Vector3();
+    Vector3(double,double,double);
+};
 
 #endif
