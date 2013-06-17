@@ -66,7 +66,7 @@ void Vector::set(int n, double stuff){
     v[n] = stuff;
 }
 
-void Vector::print(){
+void Vector::print() const{
     cout << "----------" << endl;
     for(int i = 0; i < size_; ++i)
         cout<<v[i] << " ";
@@ -174,11 +174,3 @@ Vector operator *(const Vector& a, const double& b){
     
     return v;
 }
-
-//------------------Vector 2
-Vector2::Vector2() : Vector(2){}
-Vector2::Vector2(double x, double y) : Vector(x,y){}
-
-//------------------Vector 3
-Vector3::Vector3() : Vector(3){}
-Vector3::Vector3(double x, double y, double z) : Vector(x,y,z){}

@@ -9,19 +9,16 @@
 
 #include <iostream>
 #include "Vector.h"
+#include "Matrix.h"
 
 int main(int argc, const char * argv[])
 {
 
-    Vector v = Vector(3);
-    Vector a = v;
+    Vector2 v = Vector2();
+    Vector2 b = v;
     
-    v.set(2,3.4);
-    v[0] = 2.7;
-    
-    a = v;
-    
-    a.print();
+    v[0] = 1;
+    v.print();
     
     return 0;
 }
