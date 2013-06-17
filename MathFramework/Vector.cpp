@@ -104,7 +104,8 @@ Vector Vector::cross(Vector b) const{
                       v[5]*b[0] - v[0]*b[5] + v[6]*b[3] - v[3]*b[6] + v[1]*b[2] - v[2]*b[1],
                       v[6]*b[1] - v[1]*b[6] + v[0]*b[4] - v[4]*b[0] + v[2]*b[3] - v[3]*b[2],
                       v[0]*b[2] - v[2]*b[0] + v[1]*b[5] - v[5]*b[1] + v[3]*b[4] - v[4]*b[3]);
-    return Vector(0);
+    
+    return Vector(0); //If you reach this line, stop playing with the universe
 }
 
 double & Vector::operator [](int i){
