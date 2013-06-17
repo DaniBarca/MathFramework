@@ -12,6 +12,10 @@ Matrix::Matrix(const Matrix & other){
     operator=(other);
 }
 
+Matrix::Matrix(const Vector & other){
+    operator=(other);
+}
+
 Matrix::Matrix(int r, int c){
     assert(r != 0 && c != 0);               //Matrix can't have 0 rows or columns
     size_    = r*c;
@@ -45,7 +49,7 @@ int Matrix::size() const{
 }
 
 void Matrix::print() const{
-    for(int i = 0; i < columns_-1; ++i)
+    for(int i = 0; i < columns_-1; ++i)     //Some shiny things, erase it if you don't like it
         cout << "------";
     cout << "-----" << endl;
     
@@ -85,8 +89,22 @@ Matrix & Matrix::operator =(const Matrix & b){
         delete [] m;
         m = new double[b.size()];
         copy(b.m, b.m+b.size(),m);
-        size_ = b.size();
+        size_    = b.size();
+        rows_    = b.rows();
+        columns_ = b.columns();
     }
+    return *this;
+}
+
+Matrix & Matrix::operator=(const Vector &v){
+    m = new double[v.size()];
+    rows_   = v.size();
+    columns_= 1;
+    size_   = v.size();
+    
+    for(int i = 0; i < v.size(); ++i)
+        m[i] = v[i];
+    
     return *this;
 }
 
@@ -107,4 +125,12 @@ Matrix & operator*(const Matrix & a, const Matrix & b){
     }
     
     return *m;
+}
+
+Vector & operator*(const Matrix & a, const Vector & v){
+    assert(a.columns() == v.size());
+    Matrix m = v;
+    Vector *res = new Vector(a.rows());
+    *res = a*m;
+    return *res;
 }

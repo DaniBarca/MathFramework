@@ -12,6 +12,10 @@ Vector::Vector(const Vector& other){
     operator=(other);
 }
 
+Vector::Vector(const Matrix& other){
+    operator=(other);
+}
+
 Vector::Vector(int size){
     assert(size!=0);                            //You can't create 0 size vectors
     v = new double[size];
@@ -129,6 +133,24 @@ Vector & Vector::operator =(const Vector & b){
         copy(b.v, b.v+b.size(),v);
         size_ = b.size();
     }
+    return *this;
+}
+
+Vector & Vector::operator =(const Matrix& m){
+    assert(m.columns() == 1 || m.rows() == 1);
+    delete [] v;
+    v = new double[m.size()];
+    
+    if(m.columns() == 1){
+        for(int i = 0; i < m.rows(); ++i)
+            v[i] = m.get(i,0);
+    }
+    if(m.rows() == 1){
+        for(int i = 0; i < m.columns(); ++i)
+            v[i] = m.get(0,i);
+    }
+    
+    size_ = m.size();
     return *this;
 }
 

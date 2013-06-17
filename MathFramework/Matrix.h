@@ -10,6 +10,8 @@
 #define MathFramework_Matrix_h
 
 #include "Includes.h"
+
+class Vector;
 #include "Vector.h"
 
 class Matrix{
@@ -21,6 +23,7 @@ class Matrix{
     
 public:
     Matrix(const Matrix & other);
+    Matrix(const Vector & other);
     Matrix(int,int);
     
     void clear();
@@ -35,8 +38,10 @@ public:
     void setIdentity();
     
     Matrix & operator =(const Matrix & b);
+    Matrix & operator =(const Vector & v);
 };
 
 Matrix & operator *(const Matrix & a, const Matrix & b);
+Vector & operator *(const Matrix & a, const Vector & v);
 
 #endif

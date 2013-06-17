@@ -8,7 +8,11 @@
 
 #ifndef MathFramework_Vector_h
 #define MathFramework_Vector_h
+
 #include "Includes.h"
+
+class Matrix;
+#include "Matrix.h"
 
 class Vector{
 protected:
@@ -16,6 +20,7 @@ protected:
     int size_;
 public:
     Vector(const Vector& other);
+    Vector(const Matrix& other);
     
     Vector(int size);                                         //Defines size, allocates and clears
     Vector(double,double,double,double,double,double,double); //7D vector
@@ -39,7 +44,8 @@ public:
     double & operator [](int i);                //Allows easier access to data
     double & operator [](int i) const;
     Vector & operator =(const Vector& b);
-    
+    Vector & operator =(const Matrix& m);
+
     ~Vector();
 };
 
