@@ -40,6 +40,7 @@ public:
     
     Matrix & operator =(const Matrix & b);  //For Matrix=Matrix assignment
     Matrix & operator =(const Vector & v);  //For Matrix=Vector assignment
+    
 };
 
 Matrix & operator *(const Matrix & a, const Matrix & b);

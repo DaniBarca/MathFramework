@@ -85,13 +85,13 @@ void Matrix::setIdentity(){
 }
 
 void Matrix::transpose(){
-    Matrix m = Matrix(columns_,rows_);
+    Matrix matrix = Matrix(columns_,rows_);
     for(int r = 0; r < rows_; ++r){
         for(int c = 0; c < columns_; ++c){
-            m.set(c, r, get(r,c));
+            matrix.set(c, r, get(r,c));
         }
     }
-    copy(m.m,m.m+m.size(),m);  //We copy the resulting trasposed matrix to "this" Matrix
+    copy(matrix.m,matrix.m+matrix.size(),m);  //We copy the resulting trasposed matrix to "this" Matrix
 }
 
 Matrix & Matrix::operator =(const Matrix & b){
