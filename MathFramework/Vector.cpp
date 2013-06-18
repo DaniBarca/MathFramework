@@ -121,6 +121,8 @@ double & Vector::operator [](int i){
     return v[i];
 }
 
+//This one does exactly the same as the last one, but can be used if Vector is const
+//For example at some operators
 double & Vector::operator [](int i) const{
     assert(i < size_);
     return v[i];
@@ -195,4 +197,13 @@ Vector operator *(const Vector& a, const double& b){
         v[i] = a[i] * b;
     
     return v;
+}
+
+Vector operator *(const Vector & a, const Matrix& b){
+    assert(a.size() == b.rows());
+    Matrix m = a;
+    m.transpose();
+    Vector *v = new Vector(a.size());
+    *v = (m*b);
+    return *v;
 }

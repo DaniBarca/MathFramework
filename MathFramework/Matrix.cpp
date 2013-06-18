@@ -84,6 +84,16 @@ void Matrix::setIdentity(){
     }
 }
 
+void Matrix::transpose(){
+    Matrix m = Matrix(columns_,rows_);
+    for(int r = 0; r < rows_; ++r){
+        for(int c = 0; c < columns_; ++c){
+            m.set(c, r, get(r,c));
+        }
+    }
+    copy(m.m,m.m+m.size(),m);  //We copy the resulting trasposed matrix to "this" Matrix
+}
+
 Matrix & Matrix::operator =(const Matrix & b){
     if(this != &b){
         delete [] m;
@@ -111,7 +121,7 @@ Matrix & Matrix::operator=(const Vector &v){
 //---------------Operators:
 
 Matrix & operator*(const Matrix & a, const Matrix & b){
-    assert(a.columns() == b.rows());
+    assert(a.columns() == b.rows());                        //You can't multiply these matrix
     Matrix *m = new Matrix(a.rows(), b.columns());
     double temp;
     
@@ -127,6 +137,7 @@ Matrix & operator*(const Matrix & a, const Matrix & b){
     return *m;
 }
 
+//Here, we play with the fact that a vector can be considered a 1 column Matrix and vice-versa:
 Vector & operator*(const Matrix & a, const Vector & v){
     assert(a.columns() == v.size());
     Matrix m = v;
