@@ -118,6 +118,12 @@ Matrix & Matrix::operator=(const Vector &v){
     return *this;
 }
 
+double * Matrix::operator[](const int i){
+    double* array = new double[size_-i*columns_];
+    copy(m+i*columns_,m+size_,array);
+    return array;
+}
+
 //---------------Operators:
 
 Matrix & operator*(const Matrix & a, const Matrix & b){

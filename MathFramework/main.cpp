@@ -14,14 +14,13 @@
 int main(int argc, const char * argv[])
 {
     Matrix a = Matrix(3,2);
+    a.set(0,0,3); a.set(0,1,4);
+    a.set(1,0,5); a.set(1,1,7);
+    a.set(2,0,6); a.set(2,1,8);
     
-    a.set(0,0,1); a.set(0,1,2); 
-    a.set(1,0,4); a.set(1,1,5); 
-    a.set(2,0,7); a.set(2,1,8);
-    
-    Vector v = Vector(3,2);
-    
-    (a*v).print();
+    cout<<a[0][0]<<endl;
+
+    (a).print();
     return 0;
 }
 
