@@ -44,7 +44,7 @@ public:
     double & operator [](int i);                //Allows easier access to data
     double & operator [](int i) const;
     Vector & operator =(const Vector& b);       //Vector=Vector assignment
-    Vector & operator =(const Matrix& m);       //Vector=Matrix assignment (for 1 column matrices)
+    Vector & operator =(const Matrix& m);       //Vector=Matrix assignment (for 1 column/row matrices)
 
     ~Vector();
 };
