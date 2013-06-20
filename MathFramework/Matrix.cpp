@@ -120,9 +120,7 @@ Matrix & Matrix::operator=(const Vector &v){
 
 double * Matrix::operator[](const int i){
     assert(i < size_);
-    double* array = new double[size_-i*columns_];
-    array = m+i*columns_;
-    return array;
+    return m+i*columns_;
 }
 
 //---------------Operators:
