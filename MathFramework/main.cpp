@@ -20,7 +20,7 @@ int main(int argc, const char * argv[])
     
     a[0][0] = 2;
     
-    cout<<a[0][1]<<endl;
+    cout<<a.get(0, 0)<<endl;
 
     (a).print();
     return 0;
