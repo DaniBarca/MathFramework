@@ -18,7 +18,9 @@ int main(int argc, const char * argv[])
     a.set(1,0,5); a.set(1,1,7);
     a.set(2,0,6); a.set(2,1,8);
     
-    cout<<a[0][0]<<endl;
+    a[0][0] = 2;
+    
+    cout<<a[0][1]<<endl;
 
     (a).print();
     return 0;

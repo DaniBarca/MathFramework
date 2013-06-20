@@ -120,7 +120,7 @@ Matrix & Matrix::operator=(const Vector &v){
 
 double * Matrix::operator[](const int i){
     double* array = new double[size_-i*columns_];
-    copy(m+i*columns_,m+size_,array);
+    array = m+i*columns_;
     return array;
 }
 
