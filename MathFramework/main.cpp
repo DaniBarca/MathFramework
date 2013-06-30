@@ -8,15 +8,12 @@
 //  THIS IS AN EXAMPLE CODE USING THE MATHFRAMEWORK
 
 #include <iostream>
-#include "Vector3.h"
 #include "Matrix.h"
 
 int main(int argc, const char * argv[])
 {
     Matrix a = Matrix(3,1);
     a[0][0] = 1; a[1][0] = 2;  a[2][0] = 3;
-    
-    Vector3 b = a;
     
     cout<<a.get(0, 0)<<endl;
 
