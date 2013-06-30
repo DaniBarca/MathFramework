@@ -29,6 +29,7 @@ public:
     void clear();                           //Set zeros everywhere
     
     double get(int,int) const;              //Get a value
+    double get(int)     const;              //Get a vaule from array
     int    rows()       const;              //Get rows number
     int    columns()    const;              //Get columns number
     int    size()       const;              //Get rows*columns, the number of items in m
@@ -40,7 +41,7 @@ public:
     
     Matrix & operator =(const Matrix & b);  //For Matrix=Matrix assignment
     Matrix & operator =(const Vector & v);  //For Matrix=Vector assignment
-    double * operator[](const int i);
+    double * operator[](const int i);       //Faster access to matrix [][]
 };
 
 Matrix & operator *(const Matrix & a, const Matrix & b);

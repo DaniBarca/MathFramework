@@ -36,6 +36,11 @@ double Matrix::get(int r, int c) const{
     return m[r*columns_+c];
 }
 
+double Matrix::get(int n) const{
+    assert(n < size_);
+    return m[n];
+}
+
 int Matrix::rows() const{
     return rows_;
 }
