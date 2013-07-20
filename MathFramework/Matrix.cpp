@@ -176,6 +176,7 @@ Vector & operator*(const Matrix & a, const Vector & v){
 //----------------------------------------------------------------------------------------------
 
 Matrix44::Matrix44(const Matrix & other) : Matrix(4,4){
+    assert(other.isSquare() == 4);
     operator=(other);
 }
 
