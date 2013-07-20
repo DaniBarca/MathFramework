@@ -179,8 +179,110 @@ Matrix44::Matrix44(const Matrix & other) : Matrix(4,4){
     operator=(other);
 }
 
-Matrix44::Matrix44() : Matrix(4,4){
+Matrix44::Matrix44(const Matrix44 & other) : Matrix(4,4){
+    operator=(other);
+}
+
+Matrix44::Matrix44() : Matrix(4,4){}
+
+void Matrix44::setRotationMatrix(double radians, Vector axis){
+    clear();
+	Vector axis_n = axis;
+	axis_n.norm();
     
+	float c = cos( radians );
+	float s = sin( radians );
+	float t = 1 - c;
+    
+	m[0] = t * axis[0] * axis[0] + c;
+	m[4] = t * axis[0] * axis[1] - s * axis[2];
+	m[8] = t * axis[0] * axis[2] + s * axis[1];
+    
+	m[1] = t * axis[0] * axis[1] + s * axis[2];
+	m[5] = t * axis[1] * axis[1] + c;
+	m[9] = t * axis[1] * axis[2] - s * axis[0];
+    
+	m[2] = t * axis[0] * axis[2] - s * axis[1];
+	m[6] = t * axis[1] * axis[2] + s * axis[0];
+	m[10]= t * axis[2] * axis[2] + c;
+    
+    m[15] = 1.0f;
+}
+
+void Matrix44::setTranslationMatrix(double x, double y, double z){
+    setIdentity();
+    setPosition(x,y,z);
+}
+
+void Matrix44::setPosition(double x, double y, double z){
+    m[3] = x;
+    m[7] = y;
+    m[11]= z;
+}
+
+void Matrix44::setRotation(double radians, Vector axis){
+    Matrix44 r   = Matrix44();
+    Matrix44 aux = Matrix44();;
+    aux.setIdentity();
+    aux.setPosition(m[3],m[7],m[11]);
+    r.setRotationMatrix(radians, axis);
+    operator=(r*aux);
+}
+
+void Matrix44::rotate(double radians, Vector axis){
+    Matrix44 r   = Matrix44();
+    Matrix44 aux = *this;
+    operator=(r*aux);
+}
+
+void Matrix44::translate(double x, double y, double z){
+    m[3] += x;
+    m[7] += y;
+    m[11]+= z;
+}
+
+//---------------------
+//For a local rotation you have to:
+//1. Put the Matrix at 0,0,0 world coordinates after memorizing the original position
+//2. Make a normal rotation
+//3. Put back Matrix to its original position
+//---------------------
+void Matrix44::rotateLocal(double radians, Vector axis){
+    //1
+    Matrix44 r  = Matrix44();
+    r.setRotationMatrix(radians,axis);
+    
+    Vector   pos= Vector(3);
+    pos.takePosition(*this);
+
+    setPosition(0,0,0);
+    
+    //2
+    operator=(r*(*this));
+    //3
+    setPosition(pos[0], pos[1], pos[2]);
+}
+
+void Matrix44::translateLocal(double x, double y, double z){
+    Matrix44 t = Matrix44();
+    t.setTranslationMatrix(x, y, z);
+    operator=(t*(*this));
+}
+
+Vector Matrix44::rotateVector(Vector v){
+    assert(v.size() == 3);
+    Matrix44 aux = *this;
+    aux.setPosition(0,0,0);
+    return aux * v;
+}
+
+Vector Matrix44::translateVector(Vector v){
+    assert(v.size() == 3);
+    Vector aux = v;
+    aux[0] += m[3];
+    aux[1] += m[7];
+    aux[2] += m[11];
+    return aux;
 }
 
 Matrix44 & Matrix44::operator =(const Matrix & b){

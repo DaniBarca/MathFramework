@@ -156,6 +156,13 @@ Vector & Vector::operator =(const Matrix& m){
     return *this;
 }
 
+void Vector::takePosition(const Matrix44 &m){
+    assert(size_ == 3);
+    v[0] = m.get(3);
+    v[1] = m.get(7);
+    v[2] = m.get(11);
+}
+
 Vector::~Vector(){
     delete [] v;
 }

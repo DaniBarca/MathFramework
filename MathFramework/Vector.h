@@ -12,6 +12,7 @@
 #include "Includes.h"
 
 class Matrix;
+class Matrix44;
 #include "Matrix.h"
 
 class Vector{
@@ -45,6 +46,8 @@ public:
     double & operator [](int i) const;
     Vector & operator =(const Vector& b);       //Vector=Vector assignment
     Vector & operator =(const Matrix& m);       //Vector=Matrix assignment (for 1 column/row matrices)
+    
+    void takePosition(const Matrix44& m);       //Take coordinates from this Matrix
 
     ~Vector();
 };

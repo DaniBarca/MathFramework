@@ -40,7 +40,7 @@ public:
     void setIdentity();                     //Set an identity matrix (1s at the diagonal)
     void transpose();                       //Set the transposed matrix
     
-    int  isSquare() const;                  //Tells if the matrix has the same number of rows/columns (-1 if not)
+    int  isSquare() const;                  //Tells if the matrix has the same number of rows/columns (-1 if not, number else)
     
     Matrix & operator =(const Matrix & b);  //For Matrix=Matrix assignment
     Matrix & operator =(const Vector & v);  //For Matrix=Vector assignment
@@ -56,6 +56,19 @@ public:
     Matrix44(const Matrix & other);             //Copy a Matrix. Be careful, the matrix must be 4x4
     Matrix44(const Matrix44 & other);           //Copy a Matrix44
     Matrix44();
+    
+    void setRotationMatrix(double radians, Vector axis); //Convert "this" into a rotation Matirx (erases existent data)
+    void setTranslationMatrix(double, double, double);   //Convert "this" into a translation Matrix (erases existent data)
+    
+    void setPosition(double, double, double);            //Sets Matrix into a position about World coordinates
+    void setRotation(double radians, Vector axis);       //Sets a rotation
+    void rotate     (double radians, Vector axis);       //Rotates Matrix about World
+    void translate  (double,double,double);              //Translates about World coordinates
+    void rotateLocal(double radians, Vector axis);       //Rotates Matrix about Local Matrix rotation
+    void translateLocal(double,double,double);           //Translates Matrix about Local Matrix coordinates
+
+    Vector rotateVector(Vector);                         //Rotates a given Vector
+    Vector translateVector(Vector);                      //Translates a given Vector
     
     Matrix44 & operator =(const Matrix & b);
     Matrix44 & operator =(const Matrix44 & b);

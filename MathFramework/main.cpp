@@ -16,8 +16,10 @@ int main(int argc, const char * argv[])
     Matrix a = Matrix(4,4);
     a.setIdentity();
     Matrix44 b = a;
-    v = b*v;
+    Matrix44 c = a;
+    c[3][3] = 5;
+    b = b*c;
     
-    v.print();
+    b.print();
     return 0;
 }
