@@ -15,6 +15,7 @@ class Vector;
 #include "Vector.h"
 
 class Matrix{
+protected:
     double* m;
     
     int rows_;
@@ -39,7 +40,7 @@ public:
     void setIdentity();                     //Set an identity matrix (1s at the diagonal)
     void transpose();                       //Set the transposed matrix
     
-    bool isSquare() const;                  //Tells if the matrix has the same number of rows/columns
+    int  isSquare() const;                  //Tells if the matrix has the same number of rows/columns (-1 if not)
     
     Matrix & operator =(const Matrix & b);  //For Matrix=Matrix assignment
     Matrix & operator =(const Vector & v);  //For Matrix=Vector assignment
@@ -48,5 +49,16 @@ public:
 
 Matrix & operator *(const Matrix & a, const Matrix & b);
 Vector & operator *(const Matrix & a, const Vector & v);
+
+
+class Matrix44 : public Matrix{
+public:
+    Matrix44(const Matrix & other);             //Copy a Matrix. Be careful, the matrix must be 4x4
+    Matrix44(const Matrix44 & other);           //Copy a Matrix44
+    Matrix44();
+    
+    Matrix44 & operator =(const Matrix & b);
+    Matrix44 & operator =(const Matrix44 & b);
+};
 
 #endif

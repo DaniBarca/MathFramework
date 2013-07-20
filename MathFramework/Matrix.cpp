@@ -99,8 +99,8 @@ void Matrix::transpose(){
     copy(matrix.m,matrix.m+matrix.size(),m);  //We copy the resulting trasposed matrix to "this" Matrix
 }
 
-bool Matrix::isSquare() const{
-    return rows_ == columns_;
+int Matrix::isSquare() const{
+    return (rows_ == columns_) ? rows_ : -1;
 }
 
 Matrix & Matrix::operator =(const Matrix & b){
@@ -153,14 +153,14 @@ Matrix & operator*(const Matrix & a, const Matrix & b){
 
 //Here, we play with the fact that a vector can be considered a 1 column Matrix and vice-versa:
 Vector & operator*(const Matrix & a, const Vector & v){
-    assert(a.columns() == v.size() || (a.rows() == a.columns() == 4 && v.size() == 3));
+    assert(a.columns() == v.size() || (a.isSquare() == 4 && v.size() == 3));
     
     //Very useful for 3D operations, allows to multiply a 4x4 matrix and a 3-sized vector
-    if(a.rows() == a.columns() == 4 && v.size() == 3){
+    if(a.isSquare() == 4 && v.size() == 3){
         Vector *res = new Vector(3);
-        res[0] = a.get(0) * v[0] + a.get(1) * v[1] + a.get(2)  * v[2] + a.get(3);
-        res[1] = a.get(4) * v[0] + a.get(5) * v[1] + a.get(6)  * v[2] + a.get(7);
-        res[2] = a.get(8) * v[0] + a.get(9) * v[1] + a.get(10) * v[2] + a.get(11);
+        res->set(0,a.get(0) * v[0] + a.get(1) * v[1] + a.get(2)  * v[2] + a.get(3));
+        res->set(1,a.get(4) * v[0] + a.get(5) * v[1] + a.get(6)  * v[2] + a.get(7));
+        res->set(2,a.get(8) * v[0] + a.get(9) * v[1] + a.get(10) * v[2] + a.get(11));
         return *res;
     }
     
@@ -169,4 +169,51 @@ Vector & operator*(const Matrix & a, const Vector & v){
     Vector *res = new Vector(a.rows());
     *res = a*m;
     return *res;
+}
+
+//----------------------------------------------------------------------------------------------
+//Matrix44
+//----------------------------------------------------------------------------------------------
+
+Matrix44::Matrix44(const Matrix & other) : Matrix(4,4){
+    operator=(other);
+}
+
+Matrix44::Matrix44() : Matrix(4,4){
+    
+}
+
+Matrix44 & Matrix44::operator =(const Matrix & b){
+    assert(b.isSquare() == 4);
+    if(this != &b){
+        delete [] m;
+        m = new double[b.size()];
+        
+        for(int i = 0; i < 4; ++i){
+            for(int j = 0 ; j < 4; ++j)
+                set(i, j, b.get(i,j));
+        }
+        
+        size_    = b.size();
+        rows_    = b.rows();
+        columns_ = b.columns();
+    }
+    return *this;
+}
+
+Matrix44 & Matrix44::operator =(const Matrix44 & b){
+    if(this != &b){
+        delete [] m;
+        m = new double[b.size()];
+        
+        for(int i = 0; i < 4; ++i){
+            for(int j = 0 ; j < 4; ++j)
+                set(i, j, b.get(i,j));
+        }
+        
+        size_    = b.size();
+        rows_    = b.rows();
+        columns_ = b.columns();
+    }
+    return *this;
 }

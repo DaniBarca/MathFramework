@@ -12,12 +12,12 @@
 
 int main(int argc, const char * argv[])
 {
-    Matrix a = Matrix(3,1);
-    a[0][0] = 1; a[1][0] = 2;  a[2][0] = 3;
+    Vector v = Vector(1,2,3);
+    Matrix a = Matrix(4,4);
+    a.setIdentity();
+    Matrix44 b = a;
+    v = b*v;
     
-    cout<<a.get(0, 0)<<endl;
-
-    (a).print();
+    v.print();
     return 0;
 }
-
