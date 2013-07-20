@@ -186,6 +186,7 @@ Matrix44::Matrix44(const Matrix44 & other) : Matrix(4,4){
 Matrix44::Matrix44() : Matrix(4,4){}
 
 void Matrix44::setRotationMatrix(double radians, Vector axis){
+    assert(axis.size() == 3);
     clear();
 	Vector axis_n = axis;
 	axis_n.norm();
@@ -221,6 +222,7 @@ void Matrix44::setPosition(double x, double y, double z){
 }
 
 void Matrix44::setRotation(double radians, Vector axis){
+    assert(axis.size() == 3);
     Matrix44 r   = Matrix44();
     Matrix44 aux = Matrix44();;
     aux.setIdentity();

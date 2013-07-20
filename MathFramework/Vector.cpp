@@ -130,7 +130,6 @@ double & Vector::operator [](int i) const{
 
 Vector & Vector::operator =(const Vector & b){
     if(this != &b){
-        delete [] v;
         v = new double[b.size()];
         copy(b.v, b.v+b.size(),v);
         size_ = b.size();
@@ -140,7 +139,6 @@ Vector & Vector::operator =(const Vector & b){
 
 Vector & Vector::operator =(const Matrix& m){
     assert(m.columns() == 1 || m.rows() == 1);
-    delete [] v;
     v = new double[m.size()];
     
     if(m.columns() == 1){
