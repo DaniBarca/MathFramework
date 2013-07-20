@@ -39,6 +39,8 @@ public:
     void setIdentity();                     //Set an identity matrix (1s at the diagonal)
     void transpose();                       //Set the transposed matrix
     
+    bool isSquare() const;                  //Tells if the matrix has the same number of rows/columns
+    
     Matrix & operator =(const Matrix & b);  //For Matrix=Matrix assignment
     Matrix & operator =(const Vector & v);  //For Matrix=Vector assignment
     double * operator[](const int i);       //Faster access to matrix [][]

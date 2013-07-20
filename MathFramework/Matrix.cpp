@@ -99,6 +99,10 @@ void Matrix::transpose(){
     copy(matrix.m,matrix.m+matrix.size(),m);  //We copy the resulting trasposed matrix to "this" Matrix
 }
 
+bool Matrix::isSquare() const{
+    return rows_ == columns_;
+}
+
 Matrix & Matrix::operator =(const Matrix & b){
     if(this != &b){
         delete [] m;
@@ -149,7 +153,18 @@ Matrix & operator*(const Matrix & a, const Matrix & b){
 
 //Here, we play with the fact that a vector can be considered a 1 column Matrix and vice-versa:
 Vector & operator*(const Matrix & a, const Vector & v){
-    assert(a.columns() == v.size());
+    assert(a.columns() == v.size() || (a.rows() == a.columns() == 4 && v.size() == 3));
+    
+    //Very useful for 3D operations, allows to multiply a 4x4 matrix and a 3-sized vector
+    if(a.rows() == a.columns() == 4 && v.size() == 3){
+        Vector *res = new Vector(3);
+        res[0] = a.get(0) * v[0] + a.get(1) * v[1] + a.get(2)  * v[2] + a.get(3);
+        res[1] = a.get(4) * v[0] + a.get(5) * v[1] + a.get(6)  * v[2] + a.get(7);
+        res[2] = a.get(8) * v[0] + a.get(9) * v[1] + a.get(10) * v[2] + a.get(11);
+        return *res;
+    }
+    
+    //For anything else:
     Matrix m = v;
     Vector *res = new Vector(a.rows());
     *res = a*m;
