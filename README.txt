@@ -1,7 +1,7 @@
 MathFramework
 =============
 
-A mathematical framework for vectors, matrix, and other utils.
+A mathematical framework for vectors, matrices, and other utils.
 
 This Framework works but it's not full tested yet. If you find an error please, contact me.
 
