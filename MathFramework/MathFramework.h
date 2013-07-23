@@ -20,4 +20,6 @@
 #define DEGTORAD(d) d*DEG2RAD
 #define RADTODEG(r) r*RAD2DEG
 
+int round(float x);
+
 #endif
