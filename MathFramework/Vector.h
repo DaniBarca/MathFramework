@@ -27,6 +27,7 @@ public:
     Vector(double,double,double,double,double,double,double); //7D vector
     Vector(double,double,double);                             //3D vector
     Vector(double,double);                                    //2D vector
+    Vector();                                                 //3D vector default
     
     void clear();                                             //Sets zeros
     

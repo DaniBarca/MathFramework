@@ -51,6 +51,11 @@ Vector::Vector(double x, double y){
     v[1] = y;
 }
 
+Vector::Vector(){
+    v = (double*)malloc(sizeof(double)*3);
+    this->size_ = 3;
+}
+
 void Vector::clear(){
     for(int i = 0; i < size_; ++i)
         v[i] = 0;
