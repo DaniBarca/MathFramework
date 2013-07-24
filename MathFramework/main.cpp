@@ -14,6 +14,7 @@ int main(int argc, const char * argv[])
 {
     //You can create Vectors and Matrices
     Vector   v = Vector(3);
+    Vector  vb = 3;         //This does exactly the same as vb = Vector(3), creating a 3D vector
     Vector   b = v;
     Matrix   m = Matrix(2,3); //(rows,columns)
     Matrix44 mb= Matrix44();  //Matrix44 is the same as Matrix, but it can only be 4x4 and have a lot of useful functions for 3D

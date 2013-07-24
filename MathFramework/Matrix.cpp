@@ -222,6 +222,10 @@ void Matrix44::setPosition(double x, double y, double z){
     m[11]= z;
 }
 
+void Matrix44::setPosition(Vector pos){
+    setPosition(pos[0], pos[1], pos[2]);
+}
+
 void Matrix44::setRotation(double radians, Vector axis){
     assert(axis.size() == 3);
     Matrix44 r   = Matrix44();
@@ -242,6 +246,10 @@ void Matrix44::translate(double x, double y, double z){
     m[3] += x;
     m[7] += y;
     m[11]+= z;
+}
+
+void Matrix44::translate(Vector v){
+    translate(v[0], v[1], v[2]);
 }
 
 //---------------------
@@ -270,6 +278,10 @@ void Matrix44::translateLocal(double x, double y, double z){
     Matrix44 t = Matrix44();
     t.setTranslationMatrix(x, y, z);
     operator=(t*(*this));
+}
+
+void Matrix44::translateLocal(Vector v){
+    translateLocal(v[0], v[1], v[2]);
 }
 
 Vector Matrix44::rotateVector(Vector v){
