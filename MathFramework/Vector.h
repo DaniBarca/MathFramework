@@ -32,9 +32,9 @@ public:
     void clear();                                             //Sets zeros
     
     int    size()   const;                      //Returns number of items
-    double get(int) const;                      //Returns item at (int)
+    double get(int) const;                      //Returns item at (int) position
     
-    void   set(int, double);                    //Sets an item into (int)
+    void   set(int, double);                    //Sets an item at (int) position
     void   print() const;                       //Prints the vector
     
     double mod() const;                         //Returns vector module (its length)

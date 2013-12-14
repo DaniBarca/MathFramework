@@ -18,3 +18,4 @@
 *.pbxproj
 
 MathFramework/MathFramework/MathFramework.1
+*.xccheckout

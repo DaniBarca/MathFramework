@@ -52,6 +52,7 @@ Vector & operator *(const Matrix & a, const Vector & v);
 
 //--------------------------------------------------------------------------------
 //Matrix 44 class, a certain type of square Matrix that has 4 rows and 4 columns
+//Useful for 3D calculations
 //--------------------------------------------------------------------------------
 
 class Matrix44 : public Matrix{

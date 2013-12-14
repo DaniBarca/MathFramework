@@ -103,6 +103,7 @@ int Matrix::isSquare() const{
     return (rows_ == columns_) ? rows_ : -1;
 }
 
+//---------------Operators:
 Matrix & Matrix::operator =(const Matrix & b){
     if(this != &b){
         delete [] m;
@@ -131,8 +132,6 @@ double * Matrix::operator[](const int i){
     assert(i < size_);
     return m+i*columns_;
 }
-
-//---------------Operators:
 
 Matrix & operator*(const Matrix & a, const Matrix & b){
     assert(a.columns() == b.rows());                        //You can't multiply these matrix
@@ -176,7 +175,7 @@ Vector & operator*(const Matrix & a, const Vector & v){
 //----------------------------------------------------------------------------------------------
 
 Matrix44::Matrix44(const Matrix & other) : Matrix(4,4){
-    assert(other.isSquare() == 4);
+    assert(other.isSquare() == 4);                      //You can only assign a 4x4 matrix to a Matrix44
     operator=(other);
 }
 
@@ -270,6 +269,7 @@ void Matrix44::rotateLocal(double radians, Vector axis){
     
     //2
     operator=(r*(*this));
+    
     //3
     setPosition(pos[0], pos[1], pos[2]);
 }
@@ -300,8 +300,10 @@ Vector Matrix44::translateVector(Vector v){
     return aux;
 }
 
+//---------------Operators:
+
 Matrix44 & Matrix44::operator =(const Matrix & b){
-    assert(b.isSquare() == 4);
+    assert(b.isSquare() == 4);                      //You can only assign a 4x4 Matrix to a Matrix44
     if(this != &b){
         delete [] m;
         m = new double[b.size()];

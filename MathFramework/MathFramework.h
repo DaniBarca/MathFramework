@@ -13,7 +13,7 @@
 #include "Vector.h"
 #include "Matrix.h"
 
-#define PI 3.14159265359
+#define PI      3.14159265359
 #define DEG2RAD 0.0174532925
 #define RAD2DEG 57.2957795
 
