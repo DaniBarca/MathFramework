@@ -30,7 +30,7 @@ public:
     void clear();                           //Set zeros everywhere
     
     double get(int,int) const;              //Get a value
-    double get(int)     const;              //Get a vaule from array
+    double get(int)     const;              //Get a vaule from array (not very intuitive, make sure you know what you're doing)
     int    rows()       const;              //Get rows number
     int    columns()    const;              //Get columns number
     int    size()       const;              //Get rows*columns, the number of items in m

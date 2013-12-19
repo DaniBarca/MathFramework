@@ -53,11 +53,11 @@ public:
     ~Vector();
 };
 
-Vector operator +(const Vector& a, const Vector& b);
-Vector operator -(const Vector& a, const Vector& b);
-Vector operator *(const Vector& a, const Vector& b); //NOTE THAT THIS DOES THE CROSS PRODUCT
-Vector operator /(const Vector& a, const double& b);
-Vector operator *(const Vector& a, const double& b);
-Vector operator *(const Vector& a, const Matrix& m);
+Vector operator +(const Vector& a, const Vector& b); //v1 + v2
+Vector operator -(const Vector& a, const Vector& b); //v1 - v2
+Vector operator *(const Vector& a, const Vector& b); //v1 * v2 NOTE THAT THIS DOES THE CROSS PRODUCT
+Vector operator /(const Vector& a, const double& b); //v1 / n1
+Vector operator *(const Vector& a, const double& b); //v1 * n1
+Vector operator *(const Vector& a, const Matrix& m); //v1 * m1
 
 #endif

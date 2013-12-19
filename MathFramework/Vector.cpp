@@ -105,7 +105,7 @@ double Vector::dot(Vector b) const{
 }
 
 Vector Vector::cross(Vector b) const{
-    assert(size_ == b.size() && (size_ == 3 || size_ == 7)); //The cross product only has sense for 3D and 7D vectors
+    assert((size_ == 3 || size_ == 7) && size_ == b.size()); //The cross product only has sense for 3D and 7D vectors
     
     if(size_ == 3)
         return Vector(v[1]*b[2] - v[2]*b[1], v[2]*b[0] - v[0]*b[2], v[0]*b[1] - v[1]*b[0]);
