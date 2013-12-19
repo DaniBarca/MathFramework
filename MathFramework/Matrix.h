@@ -68,6 +68,11 @@ public:
     void setPosition(double, double, double);            //Sets Matrix into a position about World coordinates
     void setPosition(Vector);
     void setRotation(double radians, Vector axis);       //Sets a rotation
+    
+    void setU(const Vector& U);
+    void setV(const Vector& V);
+    void setN(const Vector& N);
+    
     void rotate     (double radians, Vector axis);       //Rotates Matrix about World
     void translate  (double,double,double);              //Translates about World coordinates
     void translate  (Vector);

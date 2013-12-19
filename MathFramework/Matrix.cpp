@@ -235,6 +235,27 @@ void Matrix44::setRotation(double radians, Vector axis){
     operator=(r*aux);
 }
 
+void Matrix44::setU(const Vector& U){
+    assert(U.size() == 3);
+    m[0] = U[0];
+    m[1] = U[1];
+    m[2] = U[2];
+}
+
+void Matrix44::setV(const Vector& V){
+    assert(V.size() == 3);
+    m[4] = V[0];
+    m[5] = V[1];
+    m[6] = V[2];
+}
+
+void Matrix44::setN(const Vector& N){
+    assert(N.size() == 3);
+    m[8] = N[0];
+    m[9] = N[1];
+    m[10]= N[2];
+}
+
 void Matrix44::rotate(double radians, Vector axis){
     Matrix44 r   = Matrix44();
     Matrix44 aux = *this;
