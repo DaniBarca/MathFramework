@@ -27,7 +27,7 @@ public:
     Matrix(const Vector & other);           //Copy a Vector (can be considered a 1 column matrix)
     Matrix(int,int);                        //Set a new matrix
     
-    void clear();                           //Set zeros everywhere
+    void clear(int n = 0);                  //Set n everywhere
     
     double get(int,int) const;              //Get a value
     double get(int)     const;              //Get a vaule from array (not very intuitive, make sure you know what you're doing)

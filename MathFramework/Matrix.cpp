@@ -26,9 +26,9 @@ Matrix::Matrix(int r, int c){
     clear();
 }
 
-void Matrix::clear(){
+void Matrix::clear(int n){
     for(int i = 0; i < size_; ++i)
-        m[i] = 0;
+        m[i] = n;
 }
 
 double Matrix::get(int r, int c) const{
