@@ -26,6 +26,7 @@ public:
     Matrix(const Matrix & other);           //Copy a Matrix
     Matrix(const Vector & other);           //Copy a Vector (can be considered a 1 column matrix)
     Matrix(int,int);                        //Set a new matrix
+    Matrix();                               //3x3 Matrix default
     
     void clear(int n = 0);                  //Set n everywhere
     

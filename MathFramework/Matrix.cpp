@@ -26,6 +26,10 @@ Matrix::Matrix(int r, int c){
     clear();
 }
 
+Matrix::Matrix(){
+    Matrix(3,3);
+}
+
 void Matrix::clear(int n){
     for(int i = 0; i < size_; ++i)
         m[i] = n;
