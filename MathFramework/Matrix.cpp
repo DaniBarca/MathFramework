@@ -27,7 +27,7 @@ Matrix::Matrix(int r, int c){
 }
 
 Matrix::Matrix(){
-    Matrix(3,3);
+    operator=(Matrix(3,3));
 }
 
 void Matrix::clear(int n){
