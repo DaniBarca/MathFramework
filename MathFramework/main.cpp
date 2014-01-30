@@ -38,7 +38,7 @@ int main(int argc, const char * argv[])
     //And some other functions that set values automatically for diverse purposes
     mb.setIdentity();                                  //Create an identity function
     
-    //Rotate 90º in the z axis (remember: the angle must be in radians, you can convert it with DEGTORAD)
+    //Rotate 90º in the z axis (remember: the angle must be in radians, you can convert it with DEGTORAD(n))
     mb.setRotationMatrix(DEGTORAD(90), Vector(0,0,1));
     mb.setPosition(4,5,8);
     

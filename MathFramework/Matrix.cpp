@@ -107,6 +107,10 @@ int Matrix::isSquare() const{
     return (rows_ == columns_) ? rows_ : -1;
 }
 
+Matrix::~Matrix(){
+    delete [] m;
+}
+
 //---------------Operators:
 Matrix & Matrix::operator =(const Matrix & b){
     if(this != &b){
@@ -323,6 +327,9 @@ Vector Matrix44::translateVector(Vector v){
     aux[1] += m[7];
     aux[2] += m[11];
     return aux;
+}
+
+Matrix44::~Matrix44(){
 }
 
 //---------------Operators:

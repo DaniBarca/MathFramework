@@ -43,6 +43,8 @@ public:
     
     int  isSquare() const;                  //Tells if the matrix has the same number of rows/columns (-1 if not, number else)
     
+    ~Matrix();
+    
     Matrix & operator =(const Matrix & b);  //For Matrix=Matrix assignment
     Matrix & operator =(const Vector & v);  //For Matrix=Vector assignment
     double * operator[](const int i);       //Faster access to matrix [][]
@@ -83,6 +85,8 @@ public:
 
     Vector rotateVector(Vector);                         //Rotates a given Vector
     Vector translateVector(Vector);                      //Translates a given Vector
+    
+    ~Matrix44();
     
     Matrix44 & operator =(const Matrix & b);
     Matrix44 & operator =(const Matrix44 & b);
