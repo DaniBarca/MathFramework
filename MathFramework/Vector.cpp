@@ -217,3 +217,90 @@ Vector operator *(const Vector & a, const Matrix& b){
     *v = (m*b);
     return *v;
 }
+
+//----------------------------------------------------------------------------------------------
+//Vector3
+//----------------------------------------------------------------------------------------------
+
+Vector3::Vector3() : Vector(3) , x(v[0]), y(v[1]), z(v[2]){
+    this->x = v[0];
+    this->y = v[1];
+    this->z = v[2];
+}
+
+Vector3::Vector3(const Vector& other) : Vector(other),x(v[0]),y(v[1]),z(v[2]){
+
+}
+
+Vector3::Vector3(double x,double y,double z) : Vector(x,y,z) , x(v[0]), y(v[1]), z(v[2]){
+    this->x = v[0];
+    this->y = v[1];
+    this->z = v[2];
+}
+
+// Operators -------------------------------------------
+
+Vector3 & Vector3::operator =(const Vector3& b){
+    v = new double[3];
+    
+    v[0] = b[0];
+    v[1] = b[1];
+    v[2] = b[2];
+    
+    this->x = v[0];
+    this->y = v[1];
+    this->z = v[2];
+    
+    return *this;
+}
+
+Vector3 & Vector3::operator =(const Vector& b){
+    assert(b.size() == 3);
+    v = new double[3];
+    
+    v[0] = b[0];
+    v[1] = b[1];
+    v[2] = b[2];
+    
+    this->x = v[0];
+    this->y = v[1];
+    this->z = v[2];
+    
+    return *this;
+}
+
+Vector3 & Vector3::operator =(const Matrix& m){
+    assert((m.rows() == 3 && m.columns() == 1) || (m.rows() == 1 && m.columns() == 3));
+    
+    Vector::operator=(m);
+
+    this->x = v[0];
+    this->y = v[1];
+    this->z = v[2];
+    return *this;
+}
+
+Vector3 operator +(const Vector3& a, const Vector& b){
+    return Vector3(operator+((Vector)a,b));
+}
+
+Vector3 operator -(const Vector3& a, const Vector& b){
+    return Vector3(operator-(Vector(a),b));
+}
+
+Vector3 operator *(const Vector3& a, const Vector& b){
+    return Vector3(a.cross(b));
+}
+
+Vector3 operator /(const Vector3& a, const double& b){
+    return a * (1/b);
+}
+
+Vector3 operator *(const Vector3& a, const double& b){
+    Vector v = Vector(a.size());
+    
+    for(int i = 0; i<v.size(); ++i)
+        v[i] = a[i] * b;
+    
+    return v;
+}

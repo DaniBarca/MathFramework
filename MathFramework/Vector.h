@@ -60,4 +60,28 @@ Vector operator /(const Vector& a, const double& b); //v1 / n1
 Vector operator *(const Vector& a, const double& b); //v1 * n1
 Vector operator *(const Vector& a, const Matrix& m); //v1 * m1
 
+class Vector3 : public Vector{
+public:
+    double& x;      //Access to v[0] NOTE: Don't use this for data modification, just access. I will thank any clue on how to make modification work with this.
+    double& y;      //Access to v[1]
+    double& z;      //Access to v[2]
+    
+    Vector3(const Vector&  other);
+    Vector3(const Vector3& other);
+    
+    Vector3();                                  //Creates empty Vector3
+    Vector3(double,double,double);              //3D Vector
+    
+    Vector3 & operator =(const Vector3& b);
+    Vector3 & operator =(const Vector& b);      //Vector=Vector assignment
+    Vector3 & operator =(const Matrix& m);      //Vector=Matrix assignment (for 1 column/row matrices)
+};
+
+Vector3 operator +(const Vector3& a, const Vector& b); //v1 + v2
+Vector3 operator -(const Vector3& a, const Vector& b); //v1 - v2
+Vector3 operator *(const Vector3& a, const Vector& b); //v1 * v2 NOTE THAT THIS DOES THE CROSS PRODUCT
+Vector3 operator /(const Vector3& a, const double& b); //v1 / n1
+Vector3 operator *(const Vector3& a, const double& b); //v1 * n1
+Vector3 operator *(const Vector3& a, const Matrix& m); //v1 * m1
+
 #endif
