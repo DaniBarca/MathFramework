@@ -13,13 +13,14 @@
 #include "Vector.h"
 #include "Matrix.h"
 
-#define PI      3.14159265359
-#define DEG2RAD 0.0174532925
-#define RAD2DEG 57.2957795
+#define PI      3.14159265358979323846f
+#define DEG2RAD 0.01745329251994329576923f
+#define RAD2DEG 57.2957795130823208767981f
 
 #define DEGTORAD(d) d*DEG2RAD
 #define RADTODEG(r) r*RAD2DEG
 
 int round(float x);
+int round_d(double x);
 
 #endif

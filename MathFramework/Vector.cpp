@@ -122,7 +122,7 @@ Vector Vector::cross(Vector b) const{
 }
 
 double & Vector::operator [](int i){
-    assert(i < size_);                          //You accesessed an invalid position
+    assert(i < size_);                          //You accesessed an invalid position. Shame on you.
     return v[i];
 }
 

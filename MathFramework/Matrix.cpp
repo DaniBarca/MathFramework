@@ -368,3 +368,26 @@ Matrix44 & Matrix44::operator =(const Matrix44 & b){
     }
     return *this;
 }
+
+Matrix44 & operator *(const Matrix44 & a, const Matrix44 & b){
+    Matrix44 *m = new Matrix44();
+    
+    m->set(0,0,a.get(0,0) * b.get(0,0) + a.get(0,1) * b.get(1,0) + a.get(0,2) * b.get(2,0) + a.get(0,3) * b.get(3,0));
+    m->set(0,1,a.get(0,0) * b.get(0,1) + a.get(0,1) * b.get(1,1) + a.get(0,2) * b.get(2,1) + a.get(0,3) * b.get(3,1));
+    m->set(0,2,a.get(0,0) * b.get(0,2) + a.get(0,1) * b.get(1,2) + a.get(0,2) * b.get(2,2) + a.get(0,3) * b.get(3,2));
+    m->set(0,3,a.get(0,0) * b.get(0,3) + a.get(0,1) * b.get(1,3) + a.get(0,2) * b.get(2,3) + a.get(0,3) * b.get(3,3));
+    m->set(1,0,a.get(1,0) * b.get(0,0) + a.get(1,1) * b.get(1,0) + a.get(1,2) * b.get(2,0) + a.get(1,3) * b.get(3,0));
+    m->set(1,1,a.get(1,0) * b.get(0,1) + a.get(1,1) * b.get(1,1) + a.get(1,2) * b.get(2,1) + a.get(1,3) * b.get(3,1));
+    m->set(1,2,a.get(1,0) * b.get(0,2) + a.get(1,1) * b.get(1,2) + a.get(1,2) * b.get(2,2) + a.get(1,3) * b.get(3,2));
+    m->set(1,3,a.get(1,0) * b.get(0,3) + a.get(1,1) * b.get(1,3) + a.get(1,2) * b.get(2,3) + a.get(1,3) * b.get(3,3));
+    m->set(2,0,a.get(2,0) * b.get(0,0) + a.get(2,1) * b.get(1,0) + a.get(2,2) * b.get(2,0) + a.get(2,3) * b.get(3,0));
+    m->set(2,1,a.get(2,0) * b.get(0,1) + a.get(2,1) * b.get(1,1) + a.get(2,2) * b.get(2,1) + a.get(2,3) * b.get(3,1));
+    m->set(2,2,a.get(2,0) * b.get(0,2) + a.get(2,1) * b.get(1,2) + a.get(2,2) * b.get(2,2) + a.get(2,3) * b.get(3,2));
+    m->set(2,3,a.get(2,0) * b.get(0,3) + a.get(2,1) * b.get(1,3) + a.get(2,2) * b.get(2,3) + a.get(2,3) * b.get(3,3));
+    m->set(3,0,a.get(3,0) * b.get(0,0) + a.get(3,1) * b.get(1,0) + a.get(3,2) * b.get(2,0) + a.get(3,3) * b.get(3,0));
+    m->set(3,1,a.get(3,0) * b.get(0,1) + a.get(3,1) * b.get(1,1) + a.get(3,2) * b.get(2,1) + a.get(3,3) * b.get(3,1));
+    m->set(3,2,a.get(3,0) * b.get(0,2) + a.get(3,1) * b.get(1,2) + a.get(3,2) * b.get(2,2) + a.get(3,3) * b.get(3,2));
+    m->set(3,3,a.get(3,0) * b.get(0,3) + a.get(3,1) * b.get(1,3) + a.get(3,2) * b.get(2,3) + a.get(3,3) * b.get(3,3));
+    
+    return *m;
+}

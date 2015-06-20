@@ -92,4 +92,6 @@ public:
     Matrix44 & operator =(const Matrix44 & b);
 };
 
+Matrix44 & operator *(const Matrix44 &a, const Matrix44 &b);
+
 #endif
