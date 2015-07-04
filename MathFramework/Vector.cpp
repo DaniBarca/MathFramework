@@ -8,25 +8,29 @@
 
 #include "Vector.h"
 
-Vector::Vector(const Vector& other){
+template<class T>
+Vector<T>::Vector(const Vector<T>& other){
     operator=(other);
 }
 
-Vector::Vector(const Matrix& other){
+template<class T>
+Vector<T>::Vector(const Matrix<T>& other){
     operator=(other);
 }
 
-Vector::Vector(int size){
+template<class T>
+Vector<T>::Vector(int size){
     assert(size!=0);                            //You can't create 0 size vectors
-    v = new double[size];
+    v = new T[size];
     
     this->size_ = size;
     
     clear();
 }
 
-Vector::Vector(double a, double b, double c, double d, double e, double f, double g){
-    v = (double*)malloc(sizeof(double)*7);
+template<class T>
+Vector<T>::Vector(T a, T b, T c, T d, T e, T f, T g){
+    v = (T*)malloc(sizeof(T)*7);
     this->size_ = 7;
     
     v[0] = a;  v[1] = b;  v[2] = c;
@@ -34,8 +38,9 @@ Vector::Vector(double a, double b, double c, double d, double e, double f, doubl
     v[6] = g;
 }
 
-Vector::Vector(double x, double y, double z){
-    v = (double*)malloc(sizeof(double)*3);
+template<class T>
+Vector<T>::Vector(T x, T y, T z){
+    v = (T*)malloc(sizeof(T)*3);
     this->size_ = 3;
     
     v[0] = x;
@@ -43,68 +48,79 @@ Vector::Vector(double x, double y, double z){
     v[2] = z;
 }
 
-Vector::Vector(double x, double y){
-    v = (double*)malloc(sizeof(double)*2);
+template<class T>
+Vector<T>::Vector(T x, T y){
+    v = (T*)malloc(sizeof(T)*2);
     this->size_ = 2;
     
     v[0] = x;
     v[1] = y;
 }
 
-Vector::Vector(){
-    v = (double*)malloc(sizeof(double)*3);
+template<class T>
+Vector<T>::Vector(){
+    v = (T*)malloc(sizeof(T)*3);
     this->size_ = 3;
 }
 
-void Vector::clear(){
+template<class T>
+void Vector<T>::clear(){
     for(int i = 0; i < size_; ++i)
         v[i] = 0;
 }
 
-int Vector::size() const{
+template<class T>
+int Vector<T>::size() const{
     return size_;
 }
 
-double Vector::get(int n) const{
+template<class T>
+T Vector<T>::get(int n) const{
     assert(n<size_);                           //You accesessed an invalid position
     return v[n];
 }
 
-void Vector::set(int n, double stuff){
+template<class T>
+void Vector<T>::set(int n, T stuff){
     assert(n<size_);
     v[n] = stuff;
 }
 
-void Vector::print() const{
+template<class T>
+void Vector<T>::print() const{
     cout << "----------" << endl;
     for(int i = 0; i < size_; ++i)
         cout<<v[i] << " ";
     cout << endl << "----------" << endl;
 }
 
-double Vector::mod() const{
-    double stuff = 0;
+template<class T>
+T Vector<T>::mod() const{
+    T stuff = 0;
     for(int i = 0; i < size_; ++i)
         stuff += v[i]*v[i];
     return sqrt(stuff);
 }
 
-void Vector::norm(){
-    double module = 1/mod();
+template<class T>
+void Vector<T>::norm(){
+    T module = 1/mod();
     
     for(int i = 0; i < size_; ++i)
         v[i] = v[i] * module;
 }
 
-double Vector::dot(Vector b) const{
+template<class T>
+T Vector<T>::dot(Vector b) const{
     assert(size_ == b.size());
-    double dot = 0;
+    T dot = 0;
     for(int i = 0; i < size_; ++i)
         dot += v[i] * b[i];
     return dot;
 }
 
-Vector Vector::cross(Vector b) const{
+template<class T>
+Vector<T> Vector<T>::cross(Vector b) const{
     assert((size_ == 3 || size_ == 7) && size_ == b.size()); //The cross product only has sense for 3D and 7D vectors
     
     if(size_ == 3)
@@ -121,30 +137,34 @@ Vector Vector::cross(Vector b) const{
     return Vector(0); //If you reach this line, stop playing with the universe
 }
 
-double & Vector::operator [](int i){
+template<class T>
+T & Vector<T>::operator [](int i){
     assert(i < size_);                          //You accesessed an invalid position. Shame on you.
     return v[i];
 }
 
 //This one does exactly the same as the last one, but can be used if Vector is const
 //For example at some operators
-double & Vector::operator [](int i) const{
+template<class T>
+T & Vector<T>::operator [](int i) const{
     assert(i < size_);
     return v[i];
 }
 
-Vector & Vector::operator =(const Vector & b){
+template<class T>
+Vector<T> & Vector<T>::operator =(const Vector & b){
     if(this != &b){
-        v = new double[b.size()];
+        v = new T[b.size()];
         copy(b.v, b.v+b.size(),v);
         size_ = b.size();
     }
     return *this;
 }
 
-Vector & Vector::operator =(const Matrix& m){
+template<class T>
+Vector<T> & Vector<T>::operator =(const Matrix<T>& m){
     assert(m.columns() == 1 || m.rows() == 1);
-    v = new double[m.size()];
+    v = new T[m.size()];
     
     if(m.columns() == 1){
         for(int i = 0; i < m.rows(); ++i)
@@ -159,22 +179,24 @@ Vector & Vector::operator =(const Matrix& m){
     return *this;
 }
 
-void Vector::takePosition(const Matrix44 &m){
+template<class T>
+void Vector<T>::takePosition(const Matrix44<T> &m){
     assert(size_ == 3);
     v[0] = m.get(3);
     v[1] = m.get(7);
     v[2] = m.get(11);
 }
 
-Vector::~Vector(){
+template<class T>
+Vector<T>::~Vector(){
     delete [] v;
 }
 
 //---------------------- Operators between Vectors
-
-Vector operator +(const Vector& a, const Vector& b){
+template<class T>
+Vector<T> operator +(const Vector<T>& a, const Vector<T>& b){
     assert(a.size() == b.size());
-    Vector v = Vector(a.size());
+    Vector<T> v = Vector<T>(a.size());
     
     for(int i = 0; i<v.size(); ++i)
         v[i] = a.get(i) + b[i];
@@ -182,9 +204,10 @@ Vector operator +(const Vector& a, const Vector& b){
     return v;
 }
 
-Vector operator -(const Vector& a, const Vector& b){
+template<class T>
+Vector<T> operator -(const Vector<T>& a, const Vector<T>& b){
     assert(a.size() == b.size());
-    Vector v = Vector(a.size());
+    Vector<T> v = Vector<T>(a.size());
 
     for(int i = 0; i<v.size(); ++i)
         v[i] = a.get(i) - b[i];
@@ -192,16 +215,19 @@ Vector operator -(const Vector& a, const Vector& b){
     return v;
 }
 
-Vector operator *(const Vector& a, const Vector& b){
+template<class T>
+Vector<T> operator *(const Vector<T>& a, const Vector<T>& b){
     return a.cross(b);
 }
 
-Vector operator /(const Vector& a, const double& b){
+template<class T>
+Vector<T> operator /(const Vector<T>& a, const T& b){
     return a * (1/b);
 }
 
-Vector operator *(const Vector& a, const double& b){
-    Vector v = Vector(a.size());
+template<class T>
+Vector<T> operator *(const Vector<T>& a, const T& b){
+    Vector<T> v = Vector<T>(a.size());
     
     for(int i = 0; i<v.size(); ++i)
         v[i] = a[i] * b;
@@ -209,11 +235,12 @@ Vector operator *(const Vector& a, const double& b){
     return v;
 }
 
-Vector operator *(const Vector & a, const Matrix& b){
+template<class T>
+Vector<T> operator *(const Vector<T> & a, const Matrix<T>& b){
     assert(a.size() == b.rows());
-    Matrix m = a;
+    Matrix<T> m = a;
     m.transpose();
-    Vector *v = new Vector(a.size());
+    Vector<T> *v = new Vector<T>(a.size());
     *v = (m*b);
     return *v;
 }
@@ -221,33 +248,36 @@ Vector operator *(const Vector & a, const Matrix& b){
 //----------------------------------------------------------------------------------------------
 //Vector3
 //----------------------------------------------------------------------------------------------
-
-Vector3::Vector3() : Vector(3) , x(v[0]), y(v[1]), z(v[2]){
+template<class T>
+Vector3<T>::Vector3() : Vector(3) , x(v[0]), y(v[1]), z(v[2]){
     this->x = v[0];
     this->y = v[1];
     this->z = v[2];
 }
 
-Vector3::Vector3(const Vector& other) : Vector(other) , x(v[0]) , y(v[1]) , z(v[2]){
+template<class T>
+Vector3<T>::Vector3(const Vector& other) : Vector(other) , x(v[0]) , y(v[1]) , z(v[2]){
     this->x = v[0];
     this->y = v[1];
     this->z = v[2];
 }
 
-Vector3::Vector3(const Vector3& other) : x(v[0]) , y(v[1]), z(v[2]){
+template<class T>
+Vector3<T>::Vector3(const Vector3<T>& other) : x(v[0]) , y(v[1]), z(v[2]){
     operator=(other);
 }
 
-Vector3::Vector3(double x,double y,double z) : Vector(x,y,z) , x(v[0]), y(v[1]), z(v[2]){
+template<class T>
+Vector3<T>::Vector3(T x,T y,T z) : Vector(x,y,z) , x(v[0]), y(v[1]), z(v[2]){
     this->x = v[0];
     this->y = v[1];
     this->z = v[2];
 }
 
 // Operators -------------------------------------------
-
-Vector3 & Vector3::operator =(const Vector3& b){
-    v = new double[3];
+template<class T>
+Vector3<T> & Vector3<T>::operator =(const Vector3<T>& b){
+    v = new T[3];
     
     v[0] = b[0];
     v[1] = b[1];
@@ -260,9 +290,10 @@ Vector3 & Vector3::operator =(const Vector3& b){
     return *this;
 }
 
-Vector3 & Vector3::operator =(const Vector& b){
+template<class T>
+Vector3<T> & Vector3<T>::operator =(const Vector& b){
     assert(b.size() == 3);
-    v = new double[3];
+    v = new T[3];
     
     v[0] = b[0];
     v[1] = b[1];
@@ -275,10 +306,11 @@ Vector3 & Vector3::operator =(const Vector& b){
     return *this;
 }
 
-Vector3 & Vector3::operator =(const Matrix& m){
+template<class T>
+Vector3<T> & Vector3<T>::operator =(const Matrix<T>& m){
     assert((m.rows() == 3 && m.columns() == 1) || (m.rows() == 1 && m.columns() == 3));
     
-    Vector::operator=(m);
+    Vector<T>::operator=(m);
 
     this->x = v[0];
     this->y = v[1];
@@ -286,23 +318,28 @@ Vector3 & Vector3::operator =(const Matrix& m){
     return *this;
 }
 
-Vector3 operator +(const Vector3& a, const Vector& b){
-    return Vector3(operator+((Vector)a,b));
+template<class T>
+Vector3<T> operator +(const Vector3<T>& a, const Vector<T>& b){
+    return Vector3<T>(operator+((Vector<T>)a,b));
 }
 
-Vector3 operator -(const Vector3& a, const Vector& b){
-    return Vector3(operator-(Vector(a),b));
+template<class T>
+Vector3<T> operator -(const Vector3<T>& a, const Vector<T>& b){
+    return Vector3<T>(operator-(Vector<T>(a),b));
 }
 
-Vector3 operator *(const Vector3& a, const Vector& b){
-    return Vector3(a.cross(b));
+template<class T>
+Vector3<T> operator *(const Vector3<T>& a, const Vector<T>& b){
+    return Vector3<T>(a.cross(b));
 }
 
-Vector3 operator /(const Vector3& a, const double& b){
+template<class T>
+Vector3<T> operator /(const Vector3<T>& a, const T& b){
     return a * (1/b);
 }
 
-Vector3 operator *(const Vector3& a, const double& b){
+template<class T>
+Vector3<T> operator *(const Vector3<T>& a, const T& b){
     Vector v = Vector(a.size());
     
     for(int i = 0; i<v.size(); ++i)

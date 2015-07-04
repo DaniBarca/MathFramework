@@ -8,15 +8,18 @@
 
 #include "Matrix.h"
 
+template<class T>
 Matrix<T>::Matrix(const Matrix<T> & other){
     operator=(other);
 }
 
-Matrix::Matrix(const Vector & other){
+template<class T>
+Matrix<T>::Matrix(const Vector<T> & other){
     operator=(other);
 }
 
-Matrix::Matrix(int r, int c){
+template<class T>
+Matrix<T>::Matrix(unsigned int r, unsigned int c){
     assert(r != 0 && c != 0);               //Matrix can't have 0 rows or columns
     size_    = r*c;
     rows_    = r;
@@ -26,38 +29,46 @@ Matrix::Matrix(int r, int c){
     clear();
 }
 
-Matrix::Matrix(){
-    operator=(Matrix(3,3));
+template<class T>
+Matrix<T>::Matrix(){
+    operator=(Matrix<T>(3,3));
 }
 
-void Matrix::clear(int n){
+template<class T>
+void Matrix<T>::clear(int n){
     for(int i = 0; i < size_; ++i)
         m[i] = n;
 }
 
-double Matrix::get(int r, int c) const{
+template<class T>
+T Matrix<T>::get(int r, int c) const{
     assert(r * columns_ + c < size_ && r < rows_ && c < columns_ );          //You are out of the matrix
     return m[r*columns_+c];
 }
 
-double Matrix::get(int n) const{
+template<class T>
+T Matrix<T>::get(int n) const{
     assert(n < size_);
     return m[n];
 }
 
-int Matrix::rows() const{
+template<class T>
+int Matrix<T>::rows() const{
     return rows_;
 }
 
-int Matrix::columns() const{
+template<class T>
+int Matrix<T>::columns() const{
     return columns_;
 }
 
-int Matrix::size() const{
+template<class T>
+int Matrix<T>::size() const{
     return size_;
 }
 
-void Matrix::print() const{
+template<class T>
+void Matrix<T>::print() const{
     for(int i = 0; i < columns_-1; ++i)     //Some shiny things, erase it if you don't like it
         cout << "------";
     cout << "-----" << endl;
@@ -76,12 +87,14 @@ void Matrix::print() const{
     cout << "-----" << endl;
 }
 
-void Matrix::set(int r, int c, double stuff){
+template<class T>
+void Matrix<T>::set(int r, int c, T stuff){
     assert(r * columns_ + c < size_ && r < rows_ && c < columns_ );  //You are out of the matrix
     m[r*columns_+c] = stuff;
 }
 
-void Matrix::setIdentity(){
+template<class T>
+void Matrix<T>::setIdentity(){
     assert(rows_ == columns_);                  //You can only create a square identity matrix
     clear();
     
@@ -93,8 +106,9 @@ void Matrix::setIdentity(){
     }
 }
 
-void Matrix::transpose(){
-    Matrix matrix = Matrix(columns_,rows_);
+template<class T>
+void Matrix<T>::transpose(){
+    Matrix<T> matrix = Matrix<T>(columns_,rows_);
     for(int r = 0; r < rows_; ++r){
         for(int c = 0; c < columns_; ++c){
             matrix.set(c, r, get(r,c));
@@ -103,19 +117,22 @@ void Matrix::transpose(){
     copy(matrix.m,matrix.m+matrix.size(),m);  //We copy the resulting trasposed matrix to "this" Matrix
 }
 
-int Matrix::isSquare() const{
+template<class T>
+int Matrix<T>::isSquare() const{
     return (rows_ == columns_) ? rows_ : -1;
 }
 
-Matrix::~Matrix(){
+template<class T>
+Matrix<T>::~Matrix(){
     delete [] m;
 }
 
 //---------------Operators:
-Matrix & Matrix::operator =(const Matrix & b){
+template<class T>
+Matrix<T> & Matrix<T>::operator =(const Matrix<T> & b){
     if(this != &b){
-        delete [] m;
-        m = new double[b.size()];
+        //delete [] m;
+        //m = new double[b.size()];
         copy(b.m, b.m+b.size(),m);
         size_    = b.size();
         rows_    = b.rows();
@@ -124,8 +141,9 @@ Matrix & Matrix::operator =(const Matrix & b){
     return *this;
 }
 
-Matrix & Matrix::operator=(const Vector &v){
-    m = new double[v.size()];
+template<class T>
+Matrix<T> & Matrix<T>::operator=(const Vector<T> &v){
+    m = new T[v.size()];
     rows_   = v.size();
     columns_= 1;
     size_   = v.size();
@@ -136,12 +154,14 @@ Matrix & Matrix::operator=(const Vector &v){
     return *this;
 }
 
-double * Matrix::operator[](const int i){
+template<class T>
+T * Matrix<T>::operator[](const unsigned int i){
     assert(i < size_);
     return m+i*columns_;
 }
 
-Matrix & operator*(const Matrix & a, const Matrix & b){
+template<class T>
+Matrix<T> & operator*(const Matrix<T> & a, const Matrix<T> & b){
     assert(a.columns() == b.rows());                        //You can't multiply these matrix
     Matrix *m = new Matrix(a.rows(), b.columns());
     double temp;
@@ -159,7 +179,8 @@ Matrix & operator*(const Matrix & a, const Matrix & b){
 }
 
 //Here, we play with the fact that a vector can be considered a 1 column Matrix and vice-versa:
-Vector & operator*(const Matrix & a, const Vector & v){
+template<class T>
+Vector<T> & operator*(const Matrix<T> & a, const Vector<T> & v){
     assert(a.columns() == v.size() || (a.isSquare() == 4 && v.size() == 3));
     
     //Very useful for 3D operations, allows to multiply a 4x4 matrix and a 3-sized vector
@@ -173,7 +194,7 @@ Vector & operator*(const Matrix & a, const Vector & v){
     
     //For anything else:
     Matrix m = v;
-    Vector *res = new Vector(a.rows());
+    Vector *res = new Vector<T>(a.rows());
     *res = a*m;
     return *res;
 }
@@ -181,19 +202,22 @@ Vector & operator*(const Matrix & a, const Vector & v){
 //----------------------------------------------------------------------------------------------
 //Matrix44
 //----------------------------------------------------------------------------------------------
-
-Matrix44::Matrix44(const Matrix & other) : Matrix(4,4){
+template<class T>
+Matrix44<T>::Matrix44(const Matrix<T> & other) : Matrix(4,4){
     assert(other.isSquare() == 4);                      //You can only assign a 4x4 matrix to a Matrix44
     operator=(other);
 }
 
-Matrix44::Matrix44(const Matrix44 & other) : Matrix(4,4){
+template<class T>
+Matrix44<T>::Matrix44(const Matrix44<T> & other) : Matrix(4,4){
     operator=(other);
 }
 
-Matrix44::Matrix44() : Matrix(4,4){}
+template<class T>
+Matrix44<T>::Matrix44() : Matrix<T>(4,4){}
 
-void Matrix44::setRotationMatrix(double radians, Vector3 axis){
+template<class T>
+void Matrix44<T>::setRotationMatrix(double radians, Vector3<uint8_t> axis){
     assert(axis.size() == 3);
     clear();
 	Vector axis_n = axis;
@@ -218,22 +242,26 @@ void Matrix44::setRotationMatrix(double radians, Vector3 axis){
     m[15] = 1.0f;
 }
 
-void Matrix44::setTranslationMatrix(double x, double y, double z){
+template<class T>
+void Matrix44<T>::setTranslationMatrix(T x, T y, T z){
     setIdentity();
     setPosition(x,y,z);
 }
 
-void Matrix44::setPosition(double x, double y, double z){
+template<class T>
+void Matrix44<T>::setPosition(T x, T y, T z){
     m[X_I] = x;
     m[Y_I] = y;
     m[Z_I]= z;
 }
 
-void Matrix44::setPosition(Vector3 pos){
+template<class T>
+void Matrix44<T>::setPosition(Vector3<T> pos){
     setPosition(pos[0], pos[1], pos[2]);
 }
 
-void Matrix44::setRotation(double radians, Vector3 axis){
+template<class T>
+void Matrix44<T>::setRotation(double radians, Vector3<uint8_t> axis){
     Matrix44 r   = Matrix44();
     Matrix44 aux = Matrix44();;
     aux.setIdentity();
@@ -242,41 +270,48 @@ void Matrix44::setRotation(double radians, Vector3 axis){
     operator=(r*aux);
 }
 
-Vector3 Matrix44::getPosition(){
+template<class T>
+Vector3<T> Matrix44<T>::getPosition(){
 	return Vector3(m[X_I], m[Y_I], m[Z_I]);
 }
 
-void Matrix44::setU(const Vector3& U){
+template<class T>
+void Matrix44<T>::setU(const Vector3<T>& U){
     m[0] = U[0];
     m[1] = U[1];
     m[2] = U[2];
 }
 
-void Matrix44::setV(const Vector3& V){
+template<class T>
+void Matrix44<T>::setV(const Vector3<T>& V){
     m[4] = V[0];
     m[5] = V[1];
     m[6] = V[2];
 }
 
-void Matrix44::setN(const Vector3& N){
+template<class T>
+void Matrix44<T>::setN(const Vector3<T>& N){
     m[8] = N[0];
     m[9] = N[1];
     m[10]= N[2];
 }
 
-void Matrix44::rotate(double radians, Vector3 axis){
+template<class T>
+void Matrix44<T>::rotate(double radians, Vector3<uint8_t> axis){
     Matrix44 r   = Matrix44();
     Matrix44 aux = *this;
     operator=(r*aux);
 }
 
-void Matrix44::translate(double x, double y, double z){
+template<class T>
+void Matrix44<T>::translate(T x, T y, T z){
     m[X_I] += x;
     m[Y_I] += y;
     m[Z_I] += z;
 }
 
-void Matrix44::translate(Vector3 v){
+template<class T>
+void Matrix44<T>::translate(Vector3<T> v){
     translate(v[0], v[1], v[2]);
 }
 
@@ -286,7 +321,8 @@ void Matrix44::translate(Vector3 v){
 //2. Make a normal rotation
 //3. Put back Matrix to its original position
 //---------------------
-void Matrix44::rotateLocal(double radians, Vector3 axis){
+template<class T>
+void Matrix44<T>::rotateLocal(double radians, Vector3<uint8_t> axis){
     //1
     Matrix44 r  = Matrix44();
     r.setRotationMatrix(radians,axis);
@@ -303,24 +339,28 @@ void Matrix44::rotateLocal(double radians, Vector3 axis){
     setPosition(pos[0], pos[1], pos[2]);
 }
 
-void Matrix44::translateLocal(double x, double y, double z){
-    Matrix44 t = Matrix44();
+template<class T>
+void Matrix44<T>::translateLocal(T x, T y, T z){
+    Matrix44<T> t = Matrix44<T>();
     t.setTranslationMatrix(x, y, z);
     operator=(t*(*this));
 }
 
-void Matrix44::translateLocal(Vector3 v){
+template<class T>
+void Matrix44<T>::translateLocal(Vector3<T> v){
     translateLocal(v[0], v[1], v[2]);
 }
 
-Vector3 Matrix44::rotateVector(Vector3 v){
+template<class T>
+Vector3<T> Matrix44<T>::rotateVector(Vector3<T> v){
     assert(v.size() == 3);
-    Matrix44 aux = *this;
+    Matrix44<T> aux = *this;
     aux.setPosition(0,0,0);
     return aux * v;
 }
 
-Vector3 Matrix44::translateVector(Vector3 v){
+template<class T>
+Vector3<T> Matrix44<T>::translateVector(Vector3<T> v){
     Vector3 aux = v;
     aux[0] += m[X_I];
     aux[1] += m[Y_I];
@@ -328,12 +368,13 @@ Vector3 Matrix44::translateVector(Vector3 v){
     return aux;
 }
 
-Matrix44::~Matrix44(){
+template<class T>
+Matrix44<T>::~Matrix44(){
 }
 
 //---------------Operators:
-
-Matrix44 & Matrix44::operator =(const Matrix & b){
+template<class T>
+Matrix44<T> & Matrix44<T>::operator =(const Matrix<T> & b){
     assert(b.isSquare() == size_);                      //You can only assign a 4x4 Matrix to a Matrix44
     if(this != &b){
         //delete [] m;
@@ -355,7 +396,8 @@ Matrix44 & Matrix44::operator =(const Matrix & b){
     return *this;
 }
 
-Matrix44 & Matrix44::operator =(const Matrix44 & b){
+template<class T>
+Matrix44<T> & Matrix44<T>::operator =(const Matrix44<T> & b){
    // if(this != &b){
         //delete [] m;
         //m = new double[b.size()];
@@ -376,7 +418,8 @@ Matrix44 & Matrix44::operator =(const Matrix44 & b){
     return *this;
 }
 
-Matrix44 & Matrix44::mult(const Matrix44 & b, Matrix44 & r) const{
+template<class T>
+Matrix44<T> & Matrix44<T>::mult(const Matrix44<T> & b, Matrix44<T> & r) const{
     /*r.set(0,0,get(0,0) * b.get(0,0) + get(0,1) * b.get(1,0) + get(0,2) * b.get(2,0) + get(0,3) * b.get(3,0));
     r.set(0,1,get(0,0) * b.get(0,1) + get(0,1) * b.get(1,1) + get(0,2) * b.get(2,1) + get(0,3) * b.get(3,1));
     r.set(0,2,get(0,0) * b.get(0,2) + get(0,1) * b.get(1,2) + get(0,2) * b.get(2,2) + get(0,3) * b.get(3,2));
@@ -441,8 +484,8 @@ Matrix44 & Matrix44::mult(const Matrix44 & b, Matrix44 & r) const{
     return r;
 }
 
-Matrix44 & operator *(const Matrix44 & a, const Matrix44 & b){
-    Matrix44 m = Matrix44();
-    
+template<class T>
+Matrix44<T> & operator *(const Matrix44<T> & a, const Matrix44<T> & b){
+    Matrix44<T> m = Matrix44<T>();
     return a.mult(b,m);
 }

@@ -20,7 +20,7 @@
 #define DEGTORAD(d) d*DEG2RAD
 #define RADTODEG(r) r*RAD2DEG
 
-int round(float x);
+int round_f(float x);
 int round_d(double x);
 
 #endif
