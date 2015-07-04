@@ -20,3 +20,14 @@
 MathFramework/MathFramework/MathFramework.1
 *.xccheckout
 *.obj
+*.log
+Debug/MathFramework.pdb
+*.tlog
+Debug/vc120.idb
+*.pdb
+MathFramework.opensdf
+*.sdf
+MathFramework.sln
+*.suo
+MathFramework.vcxproj
+*.filters
