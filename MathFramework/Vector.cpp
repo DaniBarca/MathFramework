@@ -228,8 +228,14 @@ Vector3::Vector3() : Vector(3) , x(v[0]), y(v[1]), z(v[2]){
     this->z = v[2];
 }
 
-Vector3::Vector3(const Vector& other) : Vector(other),x(v[0]),y(v[1]),z(v[2]){
+Vector3::Vector3(const Vector& other) : Vector(other) , x(v[0]) , y(v[1]) , z(v[2]){
+    this->x = v[0];
+    this->y = v[1];
+    this->z = v[2];
+}
 
+Vector3::Vector3(const Vector3& other) : x(v[0]) , y(v[1]), z(v[2]){
+    operator=(other);
 }
 
 Vector3::Vector3(double x,double y,double z) : Vector(x,y,z) , x(v[0]), y(v[1]), z(v[2]){

@@ -8,7 +8,7 @@
 
 #include "Matrix.h"
 
-Matrix::Matrix(const Matrix & other){
+Matrix<T>::Matrix(const Matrix<T> & other){
     operator=(other);
 }
 
@@ -193,7 +193,7 @@ Matrix44::Matrix44(const Matrix44 & other) : Matrix(4,4){
 
 Matrix44::Matrix44() : Matrix(4,4){}
 
-void Matrix44::setRotationMatrix(double radians, Vector axis){
+void Matrix44::setRotationMatrix(double radians, Vector3 axis){
     assert(axis.size() == 3);
     clear();
 	Vector axis_n = axis;
@@ -224,59 +224,59 @@ void Matrix44::setTranslationMatrix(double x, double y, double z){
 }
 
 void Matrix44::setPosition(double x, double y, double z){
-    m[3] = x;
-    m[7] = y;
-    m[11]= z;
+    m[X_I] = x;
+    m[Y_I] = y;
+    m[Z_I]= z;
 }
 
-void Matrix44::setPosition(Vector pos){
+void Matrix44::setPosition(Vector3 pos){
     setPosition(pos[0], pos[1], pos[2]);
 }
 
-void Matrix44::setRotation(double radians, Vector axis){
-    assert(axis.size() == 3);
+void Matrix44::setRotation(double radians, Vector3 axis){
     Matrix44 r   = Matrix44();
     Matrix44 aux = Matrix44();;
     aux.setIdentity();
-    aux.setPosition(m[3],m[7],m[11]);
+    aux.setPosition(m[X_I],m[Y_I],m[Z_I]);
     r.setRotationMatrix(radians, axis);
     operator=(r*aux);
 }
 
-void Matrix44::setU(const Vector& U){
-    assert(U.size() == 3);
+Vector3 Matrix44::getPosition(){
+	return Vector3(m[X_I], m[Y_I], m[Z_I]);
+}
+
+void Matrix44::setU(const Vector3& U){
     m[0] = U[0];
     m[1] = U[1];
     m[2] = U[2];
 }
 
-void Matrix44::setV(const Vector& V){
-    assert(V.size() == 3);
+void Matrix44::setV(const Vector3& V){
     m[4] = V[0];
     m[5] = V[1];
     m[6] = V[2];
 }
 
-void Matrix44::setN(const Vector& N){
-    assert(N.size() == 3);
+void Matrix44::setN(const Vector3& N){
     m[8] = N[0];
     m[9] = N[1];
     m[10]= N[2];
 }
 
-void Matrix44::rotate(double radians, Vector axis){
+void Matrix44::rotate(double radians, Vector3 axis){
     Matrix44 r   = Matrix44();
     Matrix44 aux = *this;
     operator=(r*aux);
 }
 
 void Matrix44::translate(double x, double y, double z){
-    m[3] += x;
-    m[7] += y;
-    m[11]+= z;
+    m[X_I] += x;
+    m[Y_I] += y;
+    m[Z_I] += z;
 }
 
-void Matrix44::translate(Vector v){
+void Matrix44::translate(Vector3 v){
     translate(v[0], v[1], v[2]);
 }
 
@@ -286,7 +286,7 @@ void Matrix44::translate(Vector v){
 //2. Make a normal rotation
 //3. Put back Matrix to its original position
 //---------------------
-void Matrix44::rotateLocal(double radians, Vector axis){
+void Matrix44::rotateLocal(double radians, Vector3 axis){
     //1
     Matrix44 r  = Matrix44();
     r.setRotationMatrix(radians,axis);
@@ -309,23 +309,22 @@ void Matrix44::translateLocal(double x, double y, double z){
     operator=(t*(*this));
 }
 
-void Matrix44::translateLocal(Vector v){
+void Matrix44::translateLocal(Vector3 v){
     translateLocal(v[0], v[1], v[2]);
 }
 
-Vector Matrix44::rotateVector(Vector v){
+Vector3 Matrix44::rotateVector(Vector3 v){
     assert(v.size() == 3);
     Matrix44 aux = *this;
     aux.setPosition(0,0,0);
     return aux * v;
 }
 
-Vector Matrix44::translateVector(Vector v){
-    assert(v.size() == 3);
-    Vector aux = v;
-    aux[0] += m[3];
-    aux[1] += m[7];
-    aux[2] += m[11];
+Vector3 Matrix44::translateVector(Vector3 v){
+    Vector3 aux = v;
+    aux[0] += m[X_I];
+    aux[1] += m[Y_I];
+    aux[2] += m[Z_I];
     return aux;
 }
 
@@ -335,15 +334,19 @@ Matrix44::~Matrix44(){
 //---------------Operators:
 
 Matrix44 & Matrix44::operator =(const Matrix & b){
-    assert(b.isSquare() == 4);                      //You can only assign a 4x4 Matrix to a Matrix44
+    assert(b.isSquare() == size_);                      //You can only assign a 4x4 Matrix to a Matrix44
     if(this != &b){
-        delete [] m;
-        m = new double[b.size()];
+        //delete [] m;
+        //m = new double[b.size()];
         
-        for(int i = 0; i < 4; ++i){
+        for(int i = 0; i < size_; ++i){
+            m[i] = b.m[i];
+        }
+        
+        /*for(int i = 0; i < 4; ++i){
             for(int j = 0 ; j < 4; ++j)
                 set(i, j, b.get(i,j));
-        }
+        }*/
         
         size_    = b.size();
         rows_    = b.rows();
@@ -353,41 +356,93 @@ Matrix44 & Matrix44::operator =(const Matrix & b){
 }
 
 Matrix44 & Matrix44::operator =(const Matrix44 & b){
-    if(this != &b){
-        delete [] m;
-        m = new double[b.size()];
+   // if(this != &b){
+        //delete [] m;
+        //m = new double[b.size()];
         
-        for(int i = 0; i < 4; ++i){
+        for(int i = 0; i < size_; ++i){
+            m[i] = b.m[i];
+        }
+        
+        /*for(int i = 0; i < 4; ++i){
             for(int j = 0 ; j < 4; ++j)
                 set(i, j, b.get(i,j));
-        }
+        }*/
         
         size_    = b.size();
         rows_    = b.rows();
         columns_ = b.columns();
-    }
+    //}
     return *this;
 }
 
+Matrix44 & Matrix44::mult(const Matrix44 & b, Matrix44 & r) const{
+    /*r.set(0,0,get(0,0) * b.get(0,0) + get(0,1) * b.get(1,0) + get(0,2) * b.get(2,0) + get(0,3) * b.get(3,0));
+    r.set(0,1,get(0,0) * b.get(0,1) + get(0,1) * b.get(1,1) + get(0,2) * b.get(2,1) + get(0,3) * b.get(3,1));
+    r.set(0,2,get(0,0) * b.get(0,2) + get(0,1) * b.get(1,2) + get(0,2) * b.get(2,2) + get(0,3) * b.get(3,2));
+    r.set(0,3,get(0,0) * b.get(0,3) + get(0,1) * b.get(1,3) + get(0,2) * b.get(2,3) + get(0,3) * b.get(3,3));
+    r.set(1,0,get(1,0) * b.get(0,0) + get(1,1) * b.get(1,0) + get(1,2) * b.get(2,0) + get(1,3) * b.get(3,0));
+    r.set(1,1,get(1,0) * b.get(0,1) + get(1,1) * b.get(1,1) + get(1,2) * b.get(2,1) + get(1,3) * b.get(3,1));
+    r.set(1,2,get(1,0) * b.get(0,2) + get(1,1) * b.get(1,2) + get(1,2) * b.get(2,2) + get(1,3) * b.get(3,2));
+    r.set(1,3,get(1,0) * b.get(0,3) + get(1,1) * b.get(1,3) + get(1,2) * b.get(2,3) + get(1,3) * b.get(3,3));
+    r.set(2,0,get(2,0) * b.get(0,0) + get(2,1) * b.get(1,0) + get(2,2) * b.get(2,0) + get(2,3) * b.get(3,0));
+    r.set(2,1,get(2,0) * b.get(0,1) + get(2,1) * b.get(1,1) + get(2,2) * b.get(2,1) + get(2,3) * b.get(3,1));
+    r.set(2,2,get(2,0) * b.get(0,2) + get(2,1) * b.get(1,2) + get(2,2) * b.get(2,2) + get(2,3) * b.get(3,2));
+    r.set(2,3,get(2,0) * b.get(0,3) + get(2,1) * b.get(1,3) + get(2,2) * b.get(2,3) + get(2,3) * b.get(3,3));
+    r.set(3,0,get(3,0) * b.get(0,0) + get(3,1) * b.get(1,0) + get(3,2) * b.get(2,0) + get(3,3) * b.get(3,0));
+    r.set(3,1,get(3,0) * b.get(0,1) + get(3,1) * b.get(1,1) + get(3,2) * b.get(2,1) + get(3,3) * b.get(3,1));
+    r.set(3,2,get(3,0) * b.get(0,2) + get(3,1) * b.get(1,2) + get(3,2) * b.get(2,2) + get(3,3) * b.get(3,2));
+    r.set(3,3,get(3,0) * b.get(0,3) + get(3,1) * b.get(1,3) + get(3,2) * b.get(2,3) + get(3,3) * b.get(3,3));*/
+    
+    
+    r.m[0]  = m[0]  * b.m[0] + m[1]  * b.m[4] + m[2]  * b.m[8]  + m[3]  * b.m[12];
+    r.m[1]  = m[0]  * b.m[1] + m[1]  * b.m[5] + m[2]  * b.m[9]  + m[3]  * b.m[13];
+    r.m[2]  = m[0]  * b.m[2] + m[1]  * b.m[6] + m[2]  * b.m[10] + m[3]  * b.m[14];
+    r.m[3]  = m[0]  * b.m[3] + m[1]  * b.m[7] + m[2]  * b.m[11] + m[3]  * b.m[15];
+    
+    r.m[4]  = m[4]  * b.m[0] + m[5]  * b.m[4] + m[6]  * b.m[8]  + m[7]  * b.m[12];
+    r.m[5]  = m[4]  * b.m[1] + m[5]  * b.m[5] + m[6]  * b.m[9]  + m[7]  * b.m[13];
+    r.m[6]  = m[4]  * b.m[2] + m[5]  * b.m[6] + m[6]  * b.m[10] + m[7]  * b.m[14];
+    r.m[7]  = m[4]  * b.m[3] + m[5]  * b.m[7] + m[6]  * b.m[11] + m[7]  * b.m[15];
+    
+    r.m[8]  = m[8]  * b.m[0] + m[9]  * b.m[4] + m[10] * b.m[8]  + m[11] * b.m[12];
+    r.m[9]  = m[8]  * b.m[1] + m[9]  * b.m[5] + m[10] * b.m[9]  + m[11] * b.m[13];
+    r.m[10] = m[8]  * b.m[2] + m[9]  * b.m[6] + m[10] * b.m[10] + m[11] * b.m[14];
+    r.m[11] = m[8]  * b.m[3] + m[9]  * b.m[7] + m[10] * b.m[11] + m[11] * b.m[15];
+    
+    r.m[12] = m[12] * b.m[0] + m[13] * b.m[4] + m[14] * b.m[8]  + m[15] * b.m[12];
+    r.m[13] = m[12] * b.m[1] + m[13] * b.m[5] + m[14] * b.m[9]  + m[15] * b.m[13];
+    r.m[14] = m[12] * b.m[2] + m[13] * b.m[6] + m[14] * b.m[10] + m[15] * b.m[14];
+    r.m[15] = m[12] * b.m[3] + m[13] * b.m[7] + m[14] * b.m[11] + m[15] * b.m[15];
+    
+    /*...
+    
+    r.m[0] = m[0] * b.m[0];  r.m[1] = m[0] * b.m[1];  r.m[2] = m[0] * b.m[2];  r.m[3] = m[0] * b.m[3];
+    r.m[0]+= m[1] * b.m[4];  r.m[1]+= m[1] * b.m[5];  r.m[2]+= m[1] * b.m[6];  r.m[3]+= m[1] * b.m[7];
+    r.m[0]+= m[2] * b.m[8];  r.m[1]+= m[2] * b.m[9];  r.m[2]+= m[2] * b.m[10]; r.m[3]+= m[2] * b.m[11];
+    r.m[0]+= m[3] * b.m[12]; r.m[1]+= m[3] * b.m[13]; r.m[2]+= m[3] * b.m[14]; r.m[3]+= m[3] * b.m[15];
+    
+    r.m[4] = m[0] * b.m[0];  r.m[5] = m[0] * b.m[1];  r.m[6] = m[0] * b.m[2];  r.m[7] = m[0] * b.m[3];
+    r.m[4]+= m[1] * b.m[4];  r.m[5]+= m[1] * b.m[5];  r.m[6]+= m[1] * b.m[6];  r.m[7]+= m[1] * b.m[7];
+    r.m[4]+= m[2] * b.m[8];  r.m[5]+= m[2] * b.m[9];  r.m[6]+= m[2] * b.m[10]; r.m[7]+= m[2] * b.m[11];
+    r.m[4]+= m[3] * b.m[12]; r.m[5]+= m[3] * b.m[13]; r.m[6]+= m[3] * b.m[14]; r.m[7]+= m[3] * b.m[15];
+
+    r.m[8] = m[0] * b.m[0];  r.m[9] = m[0] * b.m[1];  r.m[10] = m[0] * b.m[2];  r.m[11] = m[0] * b.m[3];
+    r.m[8]+= m[1] * b.m[4];  r.m[9]+= m[1] * b.m[5];  r.m[10]+= m[1] * b.m[6];  r.m[11]+= m[1] * b.m[7];
+    r.m[8]+= m[2] * b.m[8];  r.m[9]+= m[2] * b.m[9];  r.m[10]+= m[2] * b.m[10]; r.m[11]+= m[2] * b.m[11];
+    r.m[8]+= m[3] * b.m[12]; r.m[9]+= m[3] * b.m[13]; r.m[10]+= m[3] * b.m[14]; r.m[11]+= m[3] * b.m[15];
+
+    r.m[12] = m[0] * b.m[0];  r.m[13] = m[0] * b.m[1];  r.m[14] = m[0] * b.m[2];  r.m[15] = m[0] * b.m[3];
+    r.m[12]+= m[1] * b.m[4];  r.m[13]+= m[1] * b.m[5];  r.m[14]+= m[1] * b.m[6];  r.m[15]+= m[1] * b.m[7];
+    r.m[12]+= m[2] * b.m[8];  r.m[13]+= m[2] * b.m[9];  r.m[14]+= m[2] * b.m[10]; r.m[15]+= m[2] * b.m[11];
+    r.m[12]+= m[3] * b.m[12]; r.m[13]+= m[3] * b.m[13]; r.m[14]+= m[3] * b.m[14]; r.m[15]+= m[3] * b.m[15];
+    */
+    
+    return r;
+}
+
 Matrix44 & operator *(const Matrix44 & a, const Matrix44 & b){
-    Matrix44 *m = new Matrix44();
+    Matrix44 m = Matrix44();
     
-    m->set(0,0,a.get(0,0) * b.get(0,0) + a.get(0,1) * b.get(1,0) + a.get(0,2) * b.get(2,0) + a.get(0,3) * b.get(3,0));
-    m->set(0,1,a.get(0,0) * b.get(0,1) + a.get(0,1) * b.get(1,1) + a.get(0,2) * b.get(2,1) + a.get(0,3) * b.get(3,1));
-    m->set(0,2,a.get(0,0) * b.get(0,2) + a.get(0,1) * b.get(1,2) + a.get(0,2) * b.get(2,2) + a.get(0,3) * b.get(3,2));
-    m->set(0,3,a.get(0,0) * b.get(0,3) + a.get(0,1) * b.get(1,3) + a.get(0,2) * b.get(2,3) + a.get(0,3) * b.get(3,3));
-    m->set(1,0,a.get(1,0) * b.get(0,0) + a.get(1,1) * b.get(1,0) + a.get(1,2) * b.get(2,0) + a.get(1,3) * b.get(3,0));
-    m->set(1,1,a.get(1,0) * b.get(0,1) + a.get(1,1) * b.get(1,1) + a.get(1,2) * b.get(2,1) + a.get(1,3) * b.get(3,1));
-    m->set(1,2,a.get(1,0) * b.get(0,2) + a.get(1,1) * b.get(1,2) + a.get(1,2) * b.get(2,2) + a.get(1,3) * b.get(3,2));
-    m->set(1,3,a.get(1,0) * b.get(0,3) + a.get(1,1) * b.get(1,3) + a.get(1,2) * b.get(2,3) + a.get(1,3) * b.get(3,3));
-    m->set(2,0,a.get(2,0) * b.get(0,0) + a.get(2,1) * b.get(1,0) + a.get(2,2) * b.get(2,0) + a.get(2,3) * b.get(3,0));
-    m->set(2,1,a.get(2,0) * b.get(0,1) + a.get(2,1) * b.get(1,1) + a.get(2,2) * b.get(2,1) + a.get(2,3) * b.get(3,1));
-    m->set(2,2,a.get(2,0) * b.get(0,2) + a.get(2,1) * b.get(1,2) + a.get(2,2) * b.get(2,2) + a.get(2,3) * b.get(3,2));
-    m->set(2,3,a.get(2,0) * b.get(0,3) + a.get(2,1) * b.get(1,3) + a.get(2,2) * b.get(2,3) + a.get(2,3) * b.get(3,3));
-    m->set(3,0,a.get(3,0) * b.get(0,0) + a.get(3,1) * b.get(1,0) + a.get(3,2) * b.get(2,0) + a.get(3,3) * b.get(3,0));
-    m->set(3,1,a.get(3,0) * b.get(0,1) + a.get(3,1) * b.get(1,1) + a.get(3,2) * b.get(2,1) + a.get(3,3) * b.get(3,1));
-    m->set(3,2,a.get(3,0) * b.get(0,2) + a.get(3,1) * b.get(1,2) + a.get(3,2) * b.get(2,2) + a.get(3,3) * b.get(3,2));
-    m->set(3,3,a.get(3,0) * b.get(0,3) + a.get(3,1) * b.get(1,3) + a.get(3,2) * b.get(2,3) + a.get(3,3) * b.get(3,3));
-    
-    return *m;
+    return a.mult(b,m);
 }

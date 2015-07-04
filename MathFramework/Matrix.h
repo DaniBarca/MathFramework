@@ -11,10 +11,14 @@
 
 #include "Includes.h"
 
-class Vector;
+template <class T> class Vector;
+template <class T> class Vector3;
 #include "Vector.h"
 
+template <class T>
 class Matrix{
+friend Matrix44<T>;                         //Shut up, this is here for a reason.
+    
 protected:
     double* m;
     
@@ -24,7 +28,7 @@ protected:
     
 public:
     Matrix(const Matrix & other);           //Copy a Matrix
-    Matrix(const Vector & other);           //Copy a Vector (can be considered a 1 column matrix)
+    Matrix(const Vector<T> & other);        //Copy a Vector (can be considered a 1 column matrix)
     Matrix(int,int);                        //Set a new matrix
     Matrix();                               //3x3 Matrix default
     
@@ -45,53 +49,62 @@ public:
     
     ~Matrix();
     
-    Matrix & operator =(const Matrix & b);  //For Matrix=Matrix assignment
-    Matrix & operator =(const Vector & v);  //For Matrix=Vector assignment
+    Matrix<T> & operator =(const Matrix<T> & b);  //For Matrix=Matrix assignment
+    Matrix<T> & operator =(const Vector<T> & v);  //For Matrix=Vector assignment
     double * operator[](const int i);       //Faster access to matrix [][]
+    
+    friend Matrix<T> & operator *(const Matrix<T> & a, const Matrix<T> & b);
+    friend Vector<T> & operator *(const Matrix<T> & a, const Vector<T> & v);
 };
-
-Matrix & operator *(const Matrix & a, const Matrix & b);
-Vector & operator *(const Matrix & a, const Vector & v);
 
 //--------------------------------------------------------------------------------
 //Matrix 44 class, a certain type of square Matrix that has 4 rows and 4 columns
 //Useful for 3D calculations
 //--------------------------------------------------------------------------------
 
-class Matrix44 : public Matrix{
+#define X_I 3
+#define Y_I 7
+#define Z_I 11
+
+template <class T>
+class Matrix44 : public Matrix<T>{
 public:
-    Matrix44(const Matrix & other);             //Copy a Matrix. Be careful, the matrix must be 4x4
-    Matrix44(const Matrix44 & other);           //Copy a Matrix44
+    Matrix44(const Matrix<T> & other);             //Copy a Matrix. Be careful, the matrix must be 4x4
+    Matrix44(const Matrix44<T> & other);           //Copy a Matrix44
     Matrix44();
     
-    void setRotationMatrix(double radians, Vector axis); //Convert "this" into a rotation Matirx (erases existent data)
+    void setRotationMatrix(double radians, Vector3<T> axis); //Convert "this" into a rotation Matirx (erases existent data)
     void setTranslationMatrix(double, double, double);   //Convert "this" into a translation Matrix (erases existent data)
-    void setTranslationMatrix(Vector);
+    void setTranslationMatrix(Vector3<T>);
     
     void setPosition(double, double, double);            //Sets Matrix into a position about World coordinates
-    void setPosition(Vector);
-    void setRotation(double radians, Vector axis);       //Sets a rotation
-    
-    void setU(const Vector& U);
-    void setV(const Vector& V);
-    void setN(const Vector& N);
-    
-    void rotate     (double radians, Vector axis);       //Rotates Matrix about World
-    void translate  (double,double,double);              //Translates about World coordinates
-    void translate  (Vector);
-    void rotateLocal(double radians, Vector axis);       //Rotates Matrix about Local Matrix rotation
-    void translateLocal(double,double,double);           //Translates Matrix about Local Matrix coordinates
-    void translateLocal(Vector);
+    void setPosition(Vector3<T>);
+    void setRotation(double radians, Vector3<T> axis);       //Sets a rotation
 
-    Vector rotateVector(Vector);                         //Rotates a given Vector
-    Vector translateVector(Vector);                      //Translates a given Vector
+	Vector3<T> getPosition();								 //Returns position
+    
+    void setU(const Vector3<T>& U);
+    void setV(const Vector3<T>& V);
+    void setN(const Vector3<T>& N);
+    
+    void rotate     (double radians, Vector3<T> axis);       //Rotates Matrix about World
+    void translate  (double,double,double);              //Translates about World coordinates
+    void translate  (Vector3<T>);
+    void rotateLocal(double radians, Vector3<T> axis);       //Rotates Matrix about Local Matrix rotation
+    void translateLocal(double,double,double);           //Translates Matrix about Local Matrix coordinates
+    void translateLocal(Vector3<T>);
+
+    Vector3<T> rotateVector(Vector3<T>);                         //Rotates a given Vector
+    Vector3<T> translateVector(Vector3<T>);                      //Translates a given Vector
     
     ~Matrix44();
     
-    Matrix44 & operator =(const Matrix & b);
-    Matrix44 & operator =(const Matrix44 & b);
+    Matrix44<T> & operator =(const Matrix<T> & b);
+    Matrix44<T> & operator =(const Matrix44<T> & b);
+    
+    Matrix44<T> & mult(const Matrix44<T> & b, Matrix44<T> & r) const; //Matrix multiplication without allocating new memory
+    
+    friend Matrix44<T> & operator *(const Matrix44<T> &a, const Matrix44<T> &b);
 };
-
-Matrix44 & operator *(const Matrix44 &a, const Matrix44 &b);
 
 #endif
